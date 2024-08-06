@@ -1,16 +1,8 @@
 import express from "express";
-import queries from "../db/queries.js";
+import studiosController from "../controllers/studiosController";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const data = await queries.getAllStudios();
-    console.log(data);
-    res.send(data[0].studio_name);
-  } catch (err) {
-    console.log(err);
-  }
-});
+router.get("/", studiosController.studiosGet);
 
 export { router as studiosRouter };

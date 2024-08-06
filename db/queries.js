@@ -23,9 +23,10 @@ class Queries {
     );
     return rows;
   }
-  async getTopGames() {
+  async getTopGames(limit) {
     const { rows } = await this.query(
-      "SELECT * FROM genres ORDER BY rating DESC LIMIT(10)"
+      "SELECT * FROM genres ORDER BY rating DESC LIMIT($1)",
+      [limit]
     );
     return rows;
   }
@@ -46,6 +47,34 @@ class Queries {
       "SELECT * FROM genres ORDER BY release_date"
     );
     return rows;
+  }
+
+  async insertGame(
+    title,
+    rating,
+    genreArr,
+    releaseDate,
+    logoUrl,
+    bannerUrl,
+    studioId
+  ) {
+    await this.query(
+      "INSERT INTO games (title, rating, genre, release_date, logo_url, banner_url, studio_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [title, rating, genreArr, releaseDate, logoUrl, bannerUrl, studioId]
+    );
+    return true;
+  }
+  async insertGenre(genreName) {
+    await this.query("INSERT INTO genres (genre_name) VALUES ($1)", [
+      genreName,
+    ]);
+    return true;
+  }
+  async insertStudio(studioName) {
+    await this.query("INSERT INTO studios (studio_name) VALUES ($1)", [
+      studioName,
+    ]);
+    return true;
   }
 
   async query(text, params) {
