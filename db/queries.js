@@ -25,7 +25,7 @@ class Queries {
   }
   async getTopGames(limit) {
     const { rows } = await this.query(
-      "SELECT * FROM genres ORDER BY rating DESC LIMIT($1)",
+      "SELECT * FROM games ORDER BY rating DESC LIMIT($1)",
       [limit]
     );
     return rows;

@@ -1,9 +1,9 @@
-import queries from "../db/queries";
+import queries from "../db/queries.js";
 
 class GenresController {
   constructor() {}
 
-  async genresGet() {
+  async genresGet(req, res) {
     try {
       const data = await queries.getAllGenres();
       console.log(data);

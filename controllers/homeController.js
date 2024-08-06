@@ -1,9 +1,9 @@
-import queries from "../db/queries";
+import queries from "../db/queries.js";
 
 class HomeController {
   constructor() {}
 
-  async homeGet() {
+  async homeGet(req, res) {
     try {
       const data = await queries.getTopGames(10);
       console.log(data);
