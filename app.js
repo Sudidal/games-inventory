@@ -21,4 +21,9 @@ app.use("/games", gamesRouter);
 app.use("/studios", studiosRouter);
 app.use("/genres", genresRouter);
 
-app.listen(PORT, () => console.log("Server running at port: " + PORT));
+app.listen(PORT, () =>
+  console.log(
+    "Server running at port: " + PORT + " \x1b[36m%s\x1b[0m",
+    "http://localhost:" + PORT
+  )
+);

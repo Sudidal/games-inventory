@@ -3,82 +3,141 @@ import pool from "./pool.js";
 class Queries {
   constructor() {}
 
+  //----------- Select queries
   async getAllGames() {
-    const { rows } = await this.query("SELECT * FROM games");
-    return rows;
+    const result = await this.selectQuery("SELECT * FROM games");
+    return result;
   }
   async getAllStudios() {
-    const { rows } = await this.query("SELECT * FROM studios");
-    return rows;
+    const result = await this.selectQuery("SELECT * FROM studios");
+    return result;
   }
   async getAllGenres() {
-    const { rows } = await this.query("SELECT * FROM genres");
-    return rows;
+    const result = await this.selectQuery("SELECT * FROM genres");
+    return result;
   }
 
   async getGame(gameId) {
-    const { rows } = await this.query(
+    const result = await this.selectQuery(
       "SELECT * FROM genres WHERE game_id = ($1)",
       [gameId]
     );
-    return rows;
+    return result;
   }
   async getTopGames(limit) {
-    const { rows } = await this.query(
+    const result = await this.selectQuery(
       "SELECT * FROM games ORDER BY rating DESC LIMIT($1)",
       [limit]
     );
-    return rows;
+    return result;
   }
   async getGamesOrderByRating() {
-    const { rows } = await this.query(
+    const result = await this.selectQuery(
       "SELECT * FROM genres ORDER BY rating DESC"
     );
-    return rows;
+    return result;
   }
   async getGamesOrderByNewest() {
-    const { rows } = await this.query(
+    const result = await this.selectQuery(
       "SELECT * FROM genres ORDER BY release_date DESC"
     );
     return rows;
   }
   async getGamesOrderByOldest() {
-    const { rows } = await this.query(
+    const result = await this.selectQuery(
       "SELECT * FROM genres ORDER BY release_date"
     );
-    return rows;
+    return result;
   }
 
-  async insertGame(
-    title,
-    rating,
-    genreArr,
-    releaseDate,
-    logoUrl,
-    bannerUrl,
-    studioId
-  ) {
-    await this.query(
+  //----------- Insert queries
+  async insertGame(gameInfo) {
+    const result = await this.mutateQuery(
       "INSERT INTO games (title, rating, genre, release_date, logo_url, banner_url, studio_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-      [title, rating, genreArr, releaseDate, logoUrl, bannerUrl, studioId]
+      [
+        gameInfo.title,
+        gameInfo.rating,
+        gameInfo.genre,
+        gameInfo.releaseDate,
+        gameInfo.logoUrl,
+        gameInfo.bannerUrl,
+        gameInfo.studioId,
+      ]
     );
-    return true;
+    return result;
   }
   async insertGenre(genreName) {
-    await this.query("INSERT INTO genres (genre_name) VALUES ($1)", [
-      genreName,
-    ]);
-    return true;
+    const result = await this.mutateQuery(
+      "INSERT INTO genres (genre_name) VALUES ($1)",
+      [genreName]
+    );
+    return result;
   }
   async insertStudio(studioName) {
-    await this.query("INSERT INTO studios (studio_name) VALUES ($1)", [
-      studioName,
-    ]);
-    return true;
+    const result = await this.mutateQuery(
+      "INSERT INTO studios (studio_name) VALUES ($1)",
+      [studioName]
+    );
+    return result;
   }
 
-  async query(text, params) {
-    return pool.query(text, params);
+  //--------- Update queries
+  async updateGame(gameId, gameInfo) {
+    const result = await this.mutateQuery(
+      "UPDATE games SET title = ($1), rating = ($2), genre = ($3), release_date = ($4), logo_url = ($5), banner_url = ($6), studio_id = ($7) WHERE game_id = ($8)",
+      [
+        gameInfo.title,
+        gameInfo.rating,
+        gameInfo.genre,
+        gameInfo.releaseDate,
+        gameInfo.logoUrl,
+        gameInfo.bannerUrl,
+        gameInfo.studioId,
+        gameId,
+      ]
+    );
+  }
+
+  //--------- Delete queries
+  async deleteGame(gameId) {
+    const result = await this.mutateQuery(
+      "DELETE FROM games WHERE game_id = ($1)",
+      [gameId]
+    );
+    return result;
+  }
+  async deleteStudio(studioId) {
+    const result = await this.mutateQuery(
+      "DELETE FROM studios WHERE studio_id = ($1)",
+      [studioId]
+    );
+    return result;
+  }
+  async deleteGenre(genreId) {
+    const result = await this.mutateQuery(
+      "DELETE FROM genres WHERE genre_id = ($1)",
+      [genreId]
+    );
+    return result;
+  }
+
+  async selectQuery(text, params) {
+    try {
+      const { rows } = await pool.query(text, params);
+      return rows;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+  async mutateQuery(text, params) {
+    try {
+      await pool.query(text, params);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 }
 
