@@ -1,7 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
 import process from "node:process";
-import { baseRouter } from "./routers/baseRoute.js";
+import { baseRouter } from "./routers/baseRouter.js";
 
 config();
 
