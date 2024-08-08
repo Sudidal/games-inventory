@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import process from "node:process";
 import { baseRouter } from "./routers/baseRouter.js";
+import path from "node:path";
 
 config();
 
@@ -10,6 +11,8 @@ const PORT = process.env.PORT;
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+
+app.use(express.static("public"));
 
 app.use("/", baseRouter);
 

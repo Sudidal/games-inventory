@@ -1,0 +1,34 @@
+<form action="<%- params.action %>" method="post">
+  <input
+    type="text"
+    name="title"
+    placeholder="Game's title"
+    value="<%= locals.params.game?.title %>"
+  />
+  <input
+    type="number"
+    name="rating"
+    step="0.1"
+    placeholder="Game's rating"
+    value="<%= params.game?.rating %>"
+  />
+  <input
+    type="text"
+    name="genre"
+    placeholder="Game's genre"
+    value="<%= locals.params.game?.genre %>"
+  />
+  <input
+    type="date"
+    name="releaseDate"
+    placeholder="Release date"
+    value="<%= locals.params.game?.release_date %>"
+  />
+  <input
+    type="text"
+    name="studioId"
+    placeholder="Game's studio"
+    value="<%= locals.params.game?.studio_id %>"
+  />
+  <button type="submit">Submit</button>
+</form>

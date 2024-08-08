@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games Inventory</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Oxide Games</h1>
+  <!-- <% if(locals.games) { %>
+  <%- include("games/games.ejs", {games: games}) %>
+  <% } %>
+  <% if(locals.genres) { %>
+  <%- include("genres/genres.ejs", {genres: genres}) %>
+  <% } %>
+  <% if(locals.studios) { %>
+  <%- include("studios/studios.ejs", {studios: studios}) %>
+  <% } %> -->
+
+  <%- include(locals.page, {params: params}) %>
+</body>
+</html>

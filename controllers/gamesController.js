@@ -11,14 +11,17 @@ class GamesController {
     } else if (data.length <= 0) {
       res.send("No games to show here, Why not add one?");
     }
-    res.send(data[0].title);
+    res.render("index", { page: "games/games", params: { games: data } });
   }
   async gamesAddGet(req, res) {
-    //TODO: display form to add a game
+    res.render("index", {
+      page: "games/form",
+      params: { action: "/games/add" },
+    });
   }
   async gamesAddPost(req, res) {
     const gameInfo = {
-      name: req.body.title,
+      title: req.body.title,
       rating: req.body.rating,
       genre: req.body.genre,
       releaseDate: req.body.releaseDate,
@@ -35,11 +38,20 @@ class GamesController {
     }
   }
   async gamesEditGet(req, res) {
-    // TODO: display edit game form
+    const data = await queries.getGame(req.params.gameId);
+    console.log(data);
+    if (!data || data.length <= 0) {
+      res.send("Error, couldn't find game");
+    }
+    data.release_date = data.release_date;
+    res.render("index", {
+      page: "games/form",
+      params: { action: `/games/edit/${data[0].game_id}`, game: data[0] },
+    });
   }
   async gamesEditPost(req, res) {
     const gameInfo = {
-      name: req.body.title,
+      title: req.body.title,
       rating: req.body.rating,
       genre: req.body.genre,
       releaseDate: req.body.releaseDate,
@@ -55,7 +67,7 @@ class GamesController {
       res.send("Error, couldn't update game");
     }
   }
-  async gamesDeletePost(req, res) {
+  async gamesDeleteGet(req, res) {
     const result = await queries.deleteGame(req.params.gameId);
     if (result) {
       res.send("Game deleted successfully");

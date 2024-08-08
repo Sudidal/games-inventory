@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get("/", gamesController.gamesGet);
 router.get("/add", gamesController.gamesAddGet);
-router.get("/edit:gameId", gamesController.gamesEditGet);
+router.get("/edit/:gameId", gamesController.gamesEditGet);
+router.get("/delete/:gameId", gamesController.gamesDeleteGet);
 router.post("/add", gamesController.gamesAddPost);
-router.post("/edit:gameId", gamesController.gamesEditPost);
-router.post("/delete:gameId", gamesController.gamesDeletePost);
+router.post("/edit/:gameId", gamesController.gamesEditPost);
 
 export { router as gamesRouter };

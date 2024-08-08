@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", genresController.genresGet);
 router.get("/add", genresController.genresAddGet);
+router.get("/delete/:genreId", genresController.genresDeleteGet);
 router.post("/add", genresController.genresAddPost);
-router.post("/delete:genreId", genresController.genresDeletePost);
 
 export { router as genresRouter };

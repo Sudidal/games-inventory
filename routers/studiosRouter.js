@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", studiosController.studiosGet);
 router.get("/add", studiosController.studiosAddGet);
+router.get("/delete/:studioId", studiosController.studiosDeleteGet);
 router.post("/add", studiosController.studiosAddPost);
-router.post("/delete:id", studiosController.studiosDeletePost);
 
 export { router as studiosRouter };

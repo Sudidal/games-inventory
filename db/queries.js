@@ -1,11 +1,14 @@
 import pool from "./pool.js";
 
+const gamesColumns =
+  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, logo_url, banner_url, studio_id";
+
 class Queries {
   constructor() {}
 
   //----------- Select queries
   async getAllGames() {
-    const result = await this.selectQuery("SELECT * FROM games");
+    const result = await this.selectQuery(`SELECT ${gamesColumns} FROM games`);
     return result;
   }
   async getAllStudios() {
@@ -19,14 +22,14 @@ class Queries {
 
   async getGame(gameId) {
     const result = await this.selectQuery(
-      "SELECT * FROM genres WHERE game_id = ($1)",
+      `SELECT ${gamesColumns} FROM games WHERE game_id = ($1)`,
       [gameId]
     );
     return result;
   }
   async getTopGames(limit) {
     const result = await this.selectQuery(
-      "SELECT * FROM games ORDER BY rating DESC LIMIT($1)",
+      `SELECT ${gamesColumns} FROM games ORDER BY rating DESC LIMIT($1)`,
       [limit]
     );
     return result;
@@ -96,6 +99,7 @@ class Queries {
         gameId,
       ]
     );
+    return result;
   }
 
   //--------- Delete queries
