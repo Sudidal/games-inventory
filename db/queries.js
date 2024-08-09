@@ -43,7 +43,7 @@ class Queries {
   }
   async getTopStudios(limit) {
     const result = await this.selectQuery(
-      `SELECT studio_name, COUNT(*) FROM games INNER JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studio_name) ORDER BY (count) DESC LIMIT ($1)`,
+      `SELECT studio_name, COUNT(games.studio_id) FROM games RIGHT JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studio_name) ORDER BY (count) DESC LIMIT ($1)`,
       [limit]
     );
     return result;
