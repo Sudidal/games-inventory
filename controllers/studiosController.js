@@ -1,4 +1,5 @@
 import queries from "../db/queries.js";
+import views from "../views/views.js";
 
 class StudiosController {
   constructor() {}
@@ -11,10 +12,13 @@ class StudiosController {
     } else if (data.length <= 0) {
       res.send("No studios to show here, Why not add one?");
     }
-    res.render("index", { page: "studios/studios", params: { studios: data } });
+    res.render(views.index, {
+      page: views.studiosList,
+      params: { studios: data },
+    });
   }
   async studiosAddGet(req, res) {
-    res.render("index", { page: "studios/form", params: {} });
+    res.render(views.index, { page: views.studiosForm, params: {} });
   }
   async studiosAddPost(req, res) {
     const result = await queries.insertStudio(req.body.studioName);

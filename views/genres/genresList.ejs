@@ -1,7 +1,7 @@
 <a href="/genres/add">Add Genre</a>
 <div class="games-container">
   <% params.genres.forEach(genre => { %>
-  <div class="game-card">
+  <div class="genre-card">
     <p><%= genre.genre_name %></p>
     <a href="/genres/delete/<%- genre.genre_id %>">Delete</a>
   </div>

@@ -1,4 +1,5 @@
 import queries from "../db/queries.js";
+import views from "../views/views.js";
 
 class HomeController {
   constructor() {}
@@ -10,12 +11,12 @@ class HomeController {
     console.log(topGamesData);
     console.log(topGenresData);
     console.log(topStudiosData);
-    res.render("index", {
-      page: "home/home",
+    res.render(views.index, {
+      page: views.home,
       params: {
-        topGames: topGamesData,
-        topGenres: topGenresData,
-        topStudios: topStudiosData,
+        games: topGamesData,
+        genres: topGenresData,
+        studios: topStudiosData,
       },
     });
   }

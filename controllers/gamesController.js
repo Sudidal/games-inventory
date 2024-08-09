@@ -1,4 +1,5 @@
 import queries from "../db/queries.js";
+import views from "../views/views.js";
 
 class GamesController {
   constructor() {}
@@ -11,11 +12,14 @@ class GamesController {
     } else if (data.length <= 0) {
       res.send("No games to show here, Why not add one?");
     }
-    res.render("index", { page: "games/games", params: { games: data } });
+    res.render(views.index, {
+      page: views.gamesList,
+      params: { games: data },
+    });
   }
   async gamesAddGet(req, res) {
-    res.render("index", {
-      page: "games/form",
+    res.render(views.index, {
+      page: views.gamesForm,
       params: { action: "/games/add" },
     });
   }
@@ -44,8 +48,8 @@ class GamesController {
       res.send("Error, couldn't find game");
     }
     data.release_date = data.release_date;
-    res.render("index", {
-      page: "games/form",
+    res.render(views.index, {
+      page: views.gamesForm,
       params: { action: `/games/edit/${data[0].game_id}`, game: data[0] },
     });
   }

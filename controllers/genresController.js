@@ -1,4 +1,5 @@
 import queries from "../db/queries.js";
+import views from "../views/views.js";
 
 class GenresController {
   constructor() {}
@@ -11,10 +12,13 @@ class GenresController {
     } else if (data.length <= 0) {
       res.send("No genres to show here, Why not add one?");
     }
-    res.render("index", { page: "genres/genres", params: { genres: data } });
+    res.render(views.index, {
+      page: views.genresList,
+      params: { genres: data },
+    });
   }
   async genresAddGet(req, res) {
-    res.render("index", { page: "genres/form", params: {} });
+    res.render(views.index, { page: views.genresForm, params: {} });
   }
   async genresAddPost(req, res) {
     const result = await queries.insertGenre(req.body.genreName);
