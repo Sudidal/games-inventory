@@ -1,0 +1,28 @@
+<h3>Top Games</h3>
+<div class="games-container">
+  <% params.topGames.forEach(game => { %>
+  <div class="game-card">
+    <p><%= game.title %></p>
+    <p><%= game.rating %></p>
+    <p><%= game.genre %></p>
+    <p><%= game.release_date %></p>
+    <p><%= game.studio_id %></p>
+  </div>
+  <% }) %>
+</div>
+<h3>Trending Genres</h3>
+<div class="games-container">
+  <% params.topGenres.forEach(genre => { %>
+  <div class="game-card">
+    <p><%= genre.genre_name %></p>
+  </div>
+  <% }) %>
+</div>
+<h3>Best Studios</h3>
+<div class="games-container">
+  <% params.topStudios.forEach(studio => { %>
+  <div class="game-card">
+    <p><%= studio.studio_name %></p>
+  </div>
+  <% }) %>
+</div>

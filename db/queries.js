@@ -34,6 +34,20 @@ class Queries {
     );
     return result;
   }
+  async getTopGenres(limit) {
+    const result = await this.selectQuery(
+      `SELECT genre_name, COUNT(genre_name) FROM (SELECT UNNEST(genre) as genre_name FROM games) AS unnest GROUP BY (unnest.genre_name) ORDER BY (count) DESC LIMIT ($1)`,
+      [limit]
+    );
+    return result;
+  }
+  async getTopStudios(limit) {
+    const result = await this.selectQuery(
+      `SELECT studio_name, COUNT(*) FROM games INNER JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studio_name) ORDER BY (count) DESC LIMIT ($1)`,
+      [limit]
+    );
+    return result;
+  }
   async getGamesOrderByRating() {
     const result = await this.selectQuery(
       "SELECT * FROM genres ORDER BY rating DESC"

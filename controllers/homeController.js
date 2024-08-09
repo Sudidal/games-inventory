@@ -4,13 +4,20 @@ class HomeController {
   constructor() {}
 
   async homeGet(req, res) {
-    try {
-      const data = await queries.getTopGames(10);
-      console.log(data);
-      res.send(data[0].title);
-    } catch (err) {
-      console.log(err);
-    }
+    const topGamesData = await queries.getTopGames(10);
+    const topGenresData = await queries.getTopGenres(10);
+    const topStudiosData = await queries.getTopStudios(10);
+    console.log(topGamesData);
+    console.log(topGenresData);
+    console.log(topStudiosData);
+    res.render("index", {
+      page: "home/home",
+      params: {
+        topGames: topGamesData,
+        topGenres: topGenresData,
+        topStudios: topStudiosData,
+      },
+    });
   }
 }
 
