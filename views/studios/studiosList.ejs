@@ -1,9 +1,8 @@
 <a href="/studios/add">Add Studio</a>
 <div class="games-container">
   <% params.studios.forEach(studio => { %>
-  <div class="studio-card">
+  <a href="/studios/info/<%= studio.studio_id %>" class="studio-card">
     <p><%= studio.studio_name %></p>
-    <a href="/studios/delete/<%- studio.studio_id %>">Delete</a>
-  </div>
+  </a>
   <% }) %>
 </div>

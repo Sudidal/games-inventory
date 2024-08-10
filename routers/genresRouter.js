@@ -3,7 +3,8 @@ import genresController from "../controllers/genresController.js";
 
 const router = express.Router();
 
-router.get("/", genresController.genresGet);
+router.get("/", genresController.genresAllGet);
+router.get("/info/:genreId", genresController.genresSingleGet);
 router.get("/add", genresController.genresAddGet);
 router.get("/delete/:genreId", genresController.genresDeleteGet);
 router.post("/add", genresController.genresAddPost);

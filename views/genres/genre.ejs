@@ -1,0 +1,5 @@
+<p><%= params.genre.genre_name %></p>
+<a href="/genres/delete/<%- params.genre.genre_id %>">Delete</a>
+<% if(locals.params.games) { %>
+  <%- include(views.gamesList, {params: params}) %>
+<% } %>

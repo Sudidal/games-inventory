@@ -1,14 +1,17 @@
 import pool from "./pool.js";
 
 const gamesColumns =
-  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, logo_url, banner_url, studio_id";
+  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, logo_url, banner_url, studio_name, games.studio_id";
 
 class Queries {
   constructor() {}
 
   //----------- Select queries
+  // All
   async getAllGames() {
-    const result = await this.selectQuery(`SELECT ${gamesColumns} FROM games`);
+    const result = await this.selectQuery(
+      `SELECT ${gamesColumns} FROM games INNER JOIN studios ON games.studio_id = studios.studio_id`
+    );
     return result;
   }
   async getAllStudios() {
@@ -19,17 +22,32 @@ class Queries {
     const result = await this.selectQuery("SELECT * FROM genres");
     return result;
   }
-
+  // Single
   async getGame(gameId) {
     const result = await this.selectQuery(
-      `SELECT ${gamesColumns} FROM games WHERE game_id = ($1)`,
+      `SELECT ${gamesColumns} FROM games INNER JOIN studios ON games.studio_id = studios.studio_id WHERE game_id = ($1)`,
       [gameId]
     );
     return result;
   }
+  async getGenre(genreId) {
+    const result = await this.selectQuery(
+      `SELECT * FROM genres WHERE genre_id = ($1)`,
+      [genreId]
+    );
+    return result;
+  }
+  async getStudio(studioId) {
+    const result = await this.selectQuery(
+      `SELECT * FROM studios WHERE studio_id = ($1)`,
+      [studioId]
+    );
+    return result;
+  }
+  // Special
   async getTopGames(limit) {
     const result = await this.selectQuery(
-      `SELECT ${gamesColumns} FROM games ORDER BY rating DESC LIMIT($1)`,
+      `SELECT ${gamesColumns} FROM games INNER JOIN studios ON games.studio_id = studios.studio_id ORDER BY rating DESC LIMIT($1)`,
       [limit]
     );
     return result;
@@ -45,6 +63,20 @@ class Queries {
     const result = await this.selectQuery(
       `SELECT studio_name, COUNT(games.studio_id) FROM games RIGHT JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studio_name) ORDER BY (count) DESC LIMIT ($1)`,
       [limit]
+    );
+    return result;
+  }
+  async getGamesByStudio(studio_id) {
+    const result = await this.selectQuery(
+      `SELECT ${gamesColumns} FROM games INNER JOIN studios ON games.studio_id = studios.studio_id WHERE games.studio_id = ($1)`,
+      [studio_id]
+    );
+    return result;
+  }
+  async getGamesByGenre(genreName) {
+    const result = await this.selectQuery(
+      `SELECT ${gamesColumns} FROM games INNER JOIN studios ON games.studio_id = studios.studio_id WHERE ($1) = ANY (genre)`,
+      [genreName]
     );
     return result;
   }

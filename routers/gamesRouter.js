@@ -3,7 +3,8 @@ import gamesController from "../controllers/gamesController.js";
 
 const router = express.Router();
 
-router.get("/", gamesController.gamesGet);
+router.get("/", gamesController.gamesAllGet);
+router.get("/info/:gameId", gamesController.gamesSingleGet);
 router.get("/add", gamesController.gamesAddGet);
 router.get("/edit/:gameId", gamesController.gamesEditGet);
 router.get("/delete/:gameId", gamesController.gamesDeleteGet);

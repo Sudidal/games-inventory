@@ -4,7 +4,7 @@ import views from "../views/views.js";
 class GenresController {
   constructor() {}
 
-  async genresGet(req, res) {
+  async genresAllGet(req, res) {
     const data = await queries.getAllGenres();
     console.log(data);
     if (!data) {
@@ -15,6 +15,21 @@ class GenresController {
     res.render(views.index, {
       page: views.genresList,
       params: { genres: data },
+    });
+  }
+  async genresSingleGet(req, res) {
+    const genreData = await queries.getGenre(req.params.genreId);
+    const gamesData = await queries.getGamesByGenre(genreData[0]?.genre_name);
+    console.log(genreData);
+    console.log(gamesData);
+    if (!genreData) {
+      res.send("COULDN'T RETRIEVE DATA");
+    } else if (genreData.length <= 0) {
+      res.send("No genres to show here, Why not add one?");
+    }
+    res.render(views.index, {
+      page: views.genre,
+      params: { genre: genreData[0], games: gamesData },
     });
   }
   async genresAddGet(req, res) {

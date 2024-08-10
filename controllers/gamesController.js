@@ -4,7 +4,7 @@ import views from "../views/views.js";
 class GamesController {
   constructor() {}
 
-  async gamesGet(req, res) {
+  async gamesAllGet(req, res) {
     const data = await queries.getAllGames();
     console.log(data);
     if (!data) {
@@ -15,6 +15,19 @@ class GamesController {
     res.render(views.index, {
       page: views.gamesList,
       params: { games: data },
+    });
+  }
+  async gamesSingleGet(req, res) {
+    const data = await queries.getGame(req.params.gameId);
+    console.log(data);
+    if (!data) {
+      return res.send("ERROR RETRIEVING DATA");
+    } else if (data.length <= 0) {
+      return res.send("No games to show here, Why not add one?");
+    }
+    res.render(views.index, {
+      page: views.game,
+      params: { game: data[0] },
     });
   }
   async gamesAddGet(req, res) {
@@ -45,7 +58,7 @@ class GamesController {
     const data = await queries.getGame(req.params.gameId);
     console.log(data);
     if (!data || data.length <= 0) {
-      res.send("Error, couldn't find game");
+      return res.send("Error, couldn't find game");
     }
     data.release_date = data.release_date;
     res.render(views.index, {

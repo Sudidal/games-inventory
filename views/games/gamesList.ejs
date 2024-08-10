@@ -1,14 +1,8 @@
 <a href="/games/add">Add game</a>
 <div class="games-container">
   <% params.games.forEach(game => { %>
-  <div class="game-card">
+  <a href="/games/info/<%= game.game_id %>" class="game-card">
     <p><%= game.title %></p>
-    <p><%= game.rating %></p>
-    <p><%= game.genre %></p>
-    <p><%= game.release_date %></p>
-    <p><%= game.studio_id %></p>
-    <a href="/games/edit/<%= game.game_id %>">Edit</a>
-    <a href="/games/delete/<%= game.game_id %>">Delete</a>
-  </div>
+  </a>
   <% }) %>
 </div>
