@@ -1,8 +1,10 @@
 <a href="/studios/add">Add Studio</a>
-<div class="games-container">
+<div class="studios-container">
   <% params.studios.forEach(studio => { %>
-  <a href="/studios/info/<%= studio.studio_id %>" class="studio-card">
-    <p><%= studio.studio_name %></p>
-  </a>
+    <% if(locals.toggle) { %>
+      <%- include(views.studioToggleCard, {studio: studio}) %>
+    <% } else { %>
+      <%- include(views.studioLinkCard, {studio: studio}) %>
+    <% } %>
   <% }) %>
 </div>

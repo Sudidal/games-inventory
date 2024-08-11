@@ -31,9 +31,15 @@ class GamesController {
     });
   }
   async gamesAddGet(req, res) {
+    const studiosData = await queries.getAllStudios();
+    const genresData = await queries.getAllGenres();
     res.render(views.index, {
       page: views.gamesForm,
-      params: { action: "/games/add" },
+      params: {
+        action: "/games/add",
+        studios: studiosData,
+        genres: genresData,
+      },
     });
   }
   async gamesAddPost(req, res) {
@@ -55,6 +61,8 @@ class GamesController {
     }
   }
   async gamesEditGet(req, res) {
+    const studiosData = await queries.getAllStudios();
+    const genresData = await queries.getAllGenres();
     const data = await queries.getGame(req.params.gameId);
     console.log(data);
     if (!data || data.length <= 0) {
@@ -63,7 +71,12 @@ class GamesController {
     data.release_date = data.release_date;
     res.render(views.index, {
       page: views.gamesForm,
-      params: { action: `/games/edit/${data[0].game_id}`, game: data[0] },
+      params: {
+        action: `/games/edit/${data[0].game_id}`,
+        game: data[0],
+        genres: genresData,
+        studios: studiosData,
+      },
     });
   }
   async gamesEditPost(req, res) {
@@ -76,7 +89,7 @@ class GamesController {
       bannerUrl: req.body.bannerUrl,
       studioId: req.body.studioId,
     };
-
+    console.log(gameInfo.genre);
     const result = await queries.updateGame(req.params.gameId, gameInfo);
     if (result) {
       res.send("Game updated successfully");

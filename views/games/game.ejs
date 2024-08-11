@@ -3,5 +3,7 @@
 <p><%= params.game.genre %></p>
 <p><%= params.game.release_date %></p>
 <p><%= params.game.studio_name %></p>
+<img src="<%= params.game.logo_url %>" style="width: 200px;" alt="">
+<img src="<%= params.game.banner_url %>" style="width: 400px;" alt="">
 <a href="/games/edit/<%= params.game.game_id %>">Edit</a>
 <a href="/games/delete/<%= params.game.game_id %>">Delete</a>

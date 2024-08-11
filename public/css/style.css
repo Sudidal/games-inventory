@@ -42,7 +42,7 @@ body {
   align-items: center;
 }
 
-.games-container {
+.games-container, .studios-container, .genres-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -60,4 +60,10 @@ body {
   width: 230px;
   height: 100px;
   border: 1px solid black;
+}
+.studio-card.true {
+  border: 3px solid blue;
+}
+.genre-card.true {
+  border: 3px solid blue;
 }

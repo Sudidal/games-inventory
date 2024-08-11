@@ -13,10 +13,16 @@ class Views {
 
   genresList = this.#rootPath + "/views/genres/genresList";
   genre = this.#rootPath + "/views/genres/genre";
+  genreLinkCard = this.#rootPath + "/views/genres/genreLinkCard";
+  genreToggleCard = this.#rootPath + "/views/genres/genreToggleCard";
+  genreBullet = this.#rootPath + "/views/genres/genreBullet";
+  genresBulletList = this.#rootPath + "/views/genres/genresBulletList";
   genresForm = this.#rootPath + "/views/genres/form";
 
   studiosList = this.#rootPath + "/views/studios/studiosList";
   studio = this.#rootPath + "/views/studios/studio";
+  studioLinkCard = this.#rootPath + "/views/studios/studioLinkCard";
+  studioToggleCard = this.#rootPath + "/views/studios/studioToggleCard";
   studiosForm = this.#rootPath + "/views/studios/form";
 }
 

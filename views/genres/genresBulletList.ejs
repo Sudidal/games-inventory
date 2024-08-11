@@ -1,0 +1,5 @@
+<div class="genres-bulletlist">
+  <% params.genres.forEach(genre => { %>
+    <%- include(views.genreBullet, {genre: genre}) %>
+  <% }) %>
+</div>

@@ -1,3 +1,4 @@
+<script src="/script/gamesFormInput.js" type="module" defer></script>
 <form action="<%- params.action %>" method="post">
   <input
     type="text"
@@ -14,9 +15,15 @@
   />
   <input
     type="text"
-    name="genre"
-    placeholder="Game's genre"
-    value="<%= locals.params.game?.genre %>"
+    name="logoUrl"
+    placeholder="Logo image url"
+    value="<%= locals.params.game?.logo_url %>"
+  />
+  <input
+    type="text"
+    name="bannerUrl"
+    placeholder="Banner image url"
+    value="<%= locals.params.game?.banner_url %>"
   />
   <input
     type="date"
@@ -24,11 +31,21 @@
     placeholder="Release date"
     value="<%= locals.params.game?.release_date %>"
   />
-  <input
-    type="text"
-    name="studioId"
-    placeholder="Game's studio"
-    value="<%= locals.params.game?.studio_id %>"
-  />
+  <input type="button" class="studioModalBtn" value="Choose Studio">
+  <input type="hidden" name="studioId" class="studioId" value="<%= locals.params.game?.studio_id %>">
+  <input type="hidden" name="genre" class="genre-input" value="<%= locals.params.game?.genre %>">
+  <button type="button" class="genreModalBtn">Add genre</button>
+  <div class="genres-listing">
+    <%- include(views.genresBulletList, {params: {genres: []}}) %>
+  </div>
   <button type="submit">Submit</button>
 </form>
+<dialog class="modal">
+  <div class="studios-div">
+    <%- include(locals.views.studiosList, {params: params, toggle: true}) %>
+  </div>
+  <div class="genres-div">
+    <%- include(locals.views.genresList, {params: params, toggle: true}) %>
+  </div>
+  <button class="closeBtn">Done</button>
+</dialog>

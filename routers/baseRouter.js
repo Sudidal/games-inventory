@@ -1,8 +1,10 @@
 import express from "express";
+import views from "../views/views.js";
 import { homeRouter } from "./homeRounter.js";
 import { studiosRouter } from "./studiosRouter.js";
 import { gamesRouter } from "./gamesRouter.js";
 import { genresRouter } from "./genresRouter.js";
+import { getFileRouter } from "./getFileRoute.js";
 
 const router = express.Router();
 
@@ -13,5 +15,6 @@ router.use("/home", homeRouter);
 router.use("/games", gamesRouter);
 router.use("/studios", studiosRouter);
 router.use("/genres", genresRouter);
+router.use("/getFile", getFileRouter);
 
 export { router as baseRouter };

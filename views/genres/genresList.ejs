@@ -1,8 +1,9 @@
 <a href="/genres/add">Add Genre</a>
-<div class="games-container">
+<div class="genres-container">
   <% params.genres.forEach(genre => { %>
-    <a class="genre-card" href="/genres/info/<%= genre.genre_id %>">
-      <p><%= genre.genre_name %></p>
-    </a>
-  <% }) %>
+    <% if(locals.toggle) { %>
+    <%- include(views.genreToggleCard, {genre: genre}) %>
+    <% } else { %>
+    <%- include(views.genreLinkCard, {genre: genre}) %>
+  <% }}) %>
 </div>
