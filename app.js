@@ -5,7 +5,6 @@ import { baseRouter } from "./routers/baseRouter.js";
 import views from "./views/views.js";
 
 config();
-
 const app = express();
 const PORT = process.env.PORT;
 

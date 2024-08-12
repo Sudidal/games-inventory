@@ -6,13 +6,19 @@
 body {
   margin: 0;
   height: 100vh;
+  --text-color: black;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 .container {
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 5fr;
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: 80px 1fr;
 }
 .header {
   grid-column: 1 / 3;
@@ -22,6 +28,7 @@ body {
 .side-panel {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,6 +47,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.add-btn {
+  margin-left: 100px;
 }
 
 .games-container, .studios-container, .genres-container {
