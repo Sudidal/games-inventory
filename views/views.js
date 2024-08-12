@@ -8,6 +8,7 @@ class Views {
   home = this.#rootPath + "/views/home/home";
 
   gamesList = this.#rootPath + "/views/games/gamesList";
+  gameLinkCard = this.#rootPath + "/views/games/gameLinkCard";
   game = this.#rootPath + "/views/games/game";
   gamesForm = this.#rootPath + "/views/games/form";
 
