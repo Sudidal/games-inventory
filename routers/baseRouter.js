@@ -1,5 +1,6 @@
 import express from "express";
-import views from "../views/views.js";
+import { notFoundRouter } from "./notFoundRouter.js";
+import { internalErrorRouter } from "./internalErrorRouter.js";
 import { homeRouter } from "./homeRounter.js";
 import { studiosRouter } from "./studiosRouter.js";
 import { gamesRouter } from "./gamesRouter.js";
@@ -16,5 +17,7 @@ router.use("/games", gamesRouter);
 router.use("/studios", studiosRouter);
 router.use("/genres", genresRouter);
 router.use("/getFile", getFileRouter);
+router.all("*", notFoundRouter);
+router.use(internalErrorRouter);
 
 export { router as baseRouter };

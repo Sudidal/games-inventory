@@ -20,7 +20,14 @@ class HomeController {
       },
     });
   }
+  // let's keep for testing
+  async fail(req, res, next) {
+    next(new Error("oh, i failed"));
+  }
 }
 
 const homeController = new HomeController();
 export default homeController;
+
+// If a Sync code throws, express will catch it without the need
+// to call next(), if Async code throws, then we will need to call next()

@@ -26,7 +26,9 @@ class Views {
   studioToggleCard = this.#rootPath + "/views/studios/studioToggleCard";
   studiosForm = this.#rootPath + "/views/studios/form";
 
-  headingError = this.#rootPath + "/views/partials/headingError";
+  headingError = this.#rootPath + "/views/errors/headingError";
+  notFoundError = this.#rootPath + "/views/errors/notFoundError";
+  internalError = this.#rootPath + "/views/errors/internalError";
 }
 
 const views = new Views();

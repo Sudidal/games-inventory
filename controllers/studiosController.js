@@ -45,13 +45,11 @@ class StudiosController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res
-          .status(400)
-          .render(views.index, {
-            page: views.studiosForm,
-            errors: errors.array(),
-            params: {},
-          });
+        return res.status(400).render(views.index, {
+          page: views.studiosForm,
+          errors: errors.array(),
+          params: {},
+        });
       }
       const studioInfo = matchedData(req);
       console.log(studioInfo);
