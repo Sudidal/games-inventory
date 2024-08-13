@@ -1,0 +1,9 @@
+<div class="heading-error">
+  <p><%= message %></p>
+  <button onclick="closeError(event)">X</button>
+  <script>
+    function closeError(e) {
+      e.target.parentElement.remove();
+    }
+  </script>
+</div>

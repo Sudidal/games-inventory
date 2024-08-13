@@ -8,6 +8,13 @@
   </head>
   <body>
     <div class="container">
+      <div class="errors-container">
+        <% if(locals.errors?.length > 0) { %> 
+          <% errors.forEach(error => { %>
+          <%- include(views.headingError, {message: error.msg}) %>
+        <% }) %>
+        <% } %>
+      </div>
       <header class="header">
         <nav class="nav">
           <h1>Oxide Games</h1>

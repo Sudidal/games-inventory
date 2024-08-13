@@ -1,5 +1,6 @@
 import queries from "../db/queries.js";
 import views from "../views/views.js";
+import { body, validationResult, matchedData } from "express-validator";
 
 class GenresController {
   constructor() {}
@@ -35,14 +36,32 @@ class GenresController {
   async genresAddGet(req, res) {
     res.render(views.index, { page: views.genresForm, params: {} });
   }
-  async genresAddPost(req, res) {
-    const result = await queries.insertGenre(req.body.genreName);
-    if (result) {
-      res.send("Genre added seccessfully");
-    } else {
-      res.send("Error, couldn't add genre");
-    }
-  }
+  genresAddPost = [
+    body("genreName", "Genre name must be between 1 and 20 characters")
+      .trim()
+      .isString()
+      .isLength({ min: 1, max: 20 }),
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(400).render(views.index, {
+          page: views.genresForm,
+          errors: errors.array(),
+          params: {},
+        });
+      }
+      const genreInfo = matchedData(req);
+      console.log(genreInfo);
+      const result = await queries.insertGenre(genreInfo.genreName);
+      if (result) {
+        res.send("Genre added seccessfully");
+      } else {
+        res.send("Error, couldn't add genre");
+      }
+    },
+  ];
+
   async genresDeleteGet(req, res) {
     const result = await queries.deleteGenre(req.params.genreId);
     if (result) {

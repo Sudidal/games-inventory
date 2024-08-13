@@ -1,5 +1,6 @@
 import queries from "../db/queries.js";
 import views from "../views/views.js";
+import { body, validationResult, matchedData } from "express-validator";
 
 class StudiosController {
   constructor() {}
@@ -35,14 +36,34 @@ class StudiosController {
   async studiosAddGet(req, res) {
     res.render(views.index, { page: views.studiosForm, params: {} });
   }
-  async studiosAddPost(req, res) {
-    const result = await queries.insertStudio(req.body.studioName);
-    if (result) {
-      res.send("studio added successfully");
-    } else {
-      res.send("Error, couldn't add studio");
-    }
-  }
+  studiosAddPost = [
+    body("studioName", "Studio name must be between 1 and 30 characters")
+      .trim()
+      .isString()
+      .isLength({ min: 1, max: 30 }),
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res
+          .status(400)
+          .render(views.index, {
+            page: views.studiosForm,
+            errors: errors.array(),
+            params: {},
+          });
+      }
+      const studioInfo = matchedData(req);
+      console.log(studioInfo);
+      const result = await queries.insertStudio(studioInfo.studioName);
+      if (result) {
+        res.send("studio added successfully");
+      } else {
+        res.send("Error, couldn't add studio");
+      }
+    },
+  ];
+
   async studiosDeleteGet(req, res) {
     const result = await queries.deleteStudio(req.params.studioId);
     if (result) {

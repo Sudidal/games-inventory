@@ -25,6 +25,8 @@ class Views {
   studioLinkCard = this.#rootPath + "/views/studios/studioLinkCard";
   studioToggleCard = this.#rootPath + "/views/studios/studioToggleCard";
   studiosForm = this.#rootPath + "/views/studios/form";
+
+  headingError = this.#rootPath + "/views/partials/headingError";
 }
 
 const views = new Views();

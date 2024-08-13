@@ -20,6 +20,35 @@ a {
   grid-template-columns: 1fr 5fr;
   grid-template-rows: 80px 1fr;
 }
+
+.errors-container {
+  z-index: 10;
+  width: 50%;
+  position: absolute;
+  left: 25%;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: white;
+  font-size: 12px;
+}
+
+.heading-error {
+  padding: 0 10px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: red;
+  width: 100%;
+}
+.heading-error button {
+  background: none;
+  border: none;
+  color: white;
+}
+
 .header {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
