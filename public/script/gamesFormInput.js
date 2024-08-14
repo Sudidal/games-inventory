@@ -85,7 +85,6 @@ function setGenre() {
 
 function renderGenreBullet() {
   let newGenreName = selectedGenre.querySelector(".name").textContent;
-  let newGenreId = selectedGenre.querySelector(".id").textContent;
   const genreList = document
     .querySelector(".genres-listing")
     .querySelector(".genres-bulletlist");
@@ -95,7 +94,6 @@ function renderGenreBullet() {
     genreList.innerHTML += data;
     const newGenre = genreList.lastElementChild;
     console.log(newGenre);
-    newGenre.setAttribute("href", `/genres/info/${newGenreId}`);
     newGenre.querySelector(".name").textContent = newGenreName;
   });
 }

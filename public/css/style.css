@@ -1,4 +1,6 @@
 * {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
 }
@@ -17,8 +19,14 @@ a {
 .container {
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: 80px 1fr;
+  grid-template-columns: 200px 5fr;
+  grid-template-rows: 60px 1fr;
+}
+
+.button {
+  background-color: rgb(58, 54, 54);
+  padding: 5px;
+  color: white;
 }
 
 .errors-container {
@@ -48,12 +56,25 @@ a {
   border: none;
   color: white;
 }
+.genres-bulletlist {
+  display: flex;
+  gap: 5px;
+}
+.genre-bullet {
+  padding: 5px;
+  border: 1px solid black;
+  font-size: 12px;
+}
 
 .header {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
   border-bottom: 2px solid black;
 }
+.header h1 {
+  font-size: 22px;
+}
+
 .side-panel {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
@@ -67,7 +88,36 @@ a {
 .content {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-  padding: 20px;
+  padding: 0 20px 20px 20px
+}
+.game-info .banner {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  mask-image: linear-gradient(rgb(0, 0, 0), 80%, rgba(0, 0, 0, 0.2));
+}
+.game-info .info {
+  display: flex;
+  gap: 100px;
+}
+.game-info .logo {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+.game-info .title {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.game-info .stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.stats .row {
+  display: flex;
+  gap: 20px;
 }
 .nav {
   width: 100%;

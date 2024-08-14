@@ -13,9 +13,12 @@ router.get("/genreBullet", async (req, res) => {
     ejs.renderFile(
       views.genreBullet + ".ejs",
       {
-        genre: { genre_name: "", genre_id: "" },
+        genreName: "",
       },
       (err, html) => {
+        if (err) {
+          console.log(err);
+        }
         console.log(html);
         res.send(html);
       }

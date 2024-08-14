@@ -1,9 +1,41 @@
-<p><%= params.game.title %></p>
-<p><%= params.game.rating %></p>
-<p><%= params.game.genre %></p>
-<p><%= params.game.release_date %></p>
-<p><%= params.game.studio_name %></p>
-<img src="<%= params.game.logo_url %>" style="width: 200px;" alt="">
-<img src="<%= params.game.banner_url %>" style="width: 400px;" alt="">
-<a href="/games/edit/<%= params.game.game_id %>">Edit</a>
-<a href="/games/delete/<%= params.game.game_id %>">Delete</a>
+<div class="game-info">
+  <img
+    class="banner"
+    src="<%= params.game.banner_url %>"
+    width="400px;"
+    alt=""
+  />
+  <div class="info">
+    <img
+      class="logo"
+      src="<%= params.game.logo_url %>"
+      width="200px"
+      ;
+      alt=""
+    />
+    <div class="stats">
+      <p class="title"><%= params.game.title %></p>
+      <div class="row">
+        <div class="field">
+          <p>Rating:</p>
+          <p><%= params.game.rating %>★</p>
+        </div>
+        <div class="field">
+          <p>Released:</p>
+          <p><%= params.game.release_date %></p>
+        </div>
+      </div>
+      <div class="field">
+        <p>Studio:</p>
+        <p><%= params.game.studio_name %></p>
+      </div>
+      <div class="field">
+        <p>Genre:</p>
+        <%- include(views.genresBulletList, {params: {genres: params.game.genre}}) %></div>
+      <div class="row">
+        <a class="button" href="/games/edit/<%= params.game.game_id %>">Edit</a>
+        <a class="button" href="/games/delete/<%= params.game.game_id %>">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
