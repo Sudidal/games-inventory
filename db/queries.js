@@ -1,7 +1,7 @@
 import pool from "./pool.js";
 
 const gamesColumns =
-  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, logo_url, banner_url, studio_name, games.studio_id";
+  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, games.logo_url, banner_url, studio_name, games.studio_id";
 
 class Queries {
   constructor() {}
@@ -121,10 +121,10 @@ class Queries {
     );
     return result;
   }
-  async insertStudio(studioName) {
+  async insertStudio(studioInfo) {
     const result = await this.mutateQuery(
-      "INSERT INTO studios (studio_name) VALUES ($1)",
-      [studioName]
+      "INSERT INTO studios (studio_name, logo_url) VALUES ($1, $2)",
+      [studioInfo.studioName, studioInfo.logoUrl]
     );
     return result;
   }
