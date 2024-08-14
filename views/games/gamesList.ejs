@@ -1,6 +1,10 @@
-<a class="add-btn" href="/games/add">Add game</a>
-<div class="genres-container">
-  <% params.games.forEach(game => { %>
-    <%- include(views.gameLinkCard, {game: game}) %>
-  <% }) %>
+<div class="games-container">
+  <h3 class="category-header"><%= locals.params.heading %></h3>
+  <a class="add-btn button" href="/games/add">Add game</a>
+  <div class="games-list">
+    <% params.games.forEach(game => { %>
+      <%- include(views.gameLinkCard, {game: game}) %>
+    <% }) %>
+  </div>
+
 </div>

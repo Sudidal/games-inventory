@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
 * {
   padding: 0;
   margin: 0;
@@ -8,7 +10,12 @@
 body {
   margin: 0;
   height: 100vh;
-  --text-color: black;
+  background-color: var(--primary-background-color);
+  color: var(--text-color);
+  --primary-background-color: rgb(2, 17, 39);
+  --secondary-background-color: rgba(6, 31, 70, 0.7);
+  --text-color: rgb(255, 255, 255);
+  --border-color: rgb(33, 20, 146);
 }
 
 a {
@@ -23,10 +30,14 @@ a {
   grid-template-rows: 60px 1fr;
 }
 
-.button {
-  background-color: rgb(58, 54, 54);
-  padding: 5px;
-  color: white;
+.button,
+button {
+  padding: 10px;
+  background-color: var(--secondary-background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .errors-container {
@@ -41,6 +52,17 @@ a {
   gap: 2px;
   color: white;
   font-size: 12px;
+}
+
+.category-header {
+  margin-bottom: 20px;
+}
+
+.add-btn {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  z-index: 5;
 }
 
 .heading-error {
@@ -62,7 +84,7 @@ a {
 }
 .genre-bullet {
   padding: 5px;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
   font-size: 12px;
 }
 
@@ -88,7 +110,8 @@ a {
 .content {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-  padding: 0 20px 20px 20px
+  position: relative;
+  padding: 0 20px 20px 20px;
 }
 .game-info .banner {
   width: 100%;
@@ -128,11 +151,16 @@ a {
   align-items: center;
 }
 
-.add-btn {
-  margin-left: 100px;
+.games-container,
+.studios-container,
+.genres-container {
+  padding-top: 50px;
+  position: relative;
 }
 
-.games-container, .studios-container, .genres-container {
+.games-list,
+.studios-list,
+.genres-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -144,12 +172,40 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
+  gap: 20px;
+  background-color: var(--secondary-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
-.genre-card, .studio-card {
+.game-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.game-card p {
+  font-family: "Bebas Neue";
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.genre-card {
+  width: 230px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+}
+
+.studio-card {
   width: 230px;
   height: 100px;
-  border: 1px solid black;
+  border: 1px solid var(--border-color);
 }
 .studio-card.true {
   border: 3px solid blue;

@@ -1,6 +1,3 @@
-<h3>Top Games</h3>
-<%- include(locals.views.gamesList, {params: params}) %>
-<h3>Trending Genres</h3>
-<%- include(locals.views.genresList, {params: params}) %>
-<h3>Best Studios</h3>
-<%- include(locals.views.studiosList, {params: params}) %>
+<%- include(locals.views.gamesList, {params: {...params, heading: "Top Games"}}) %>
+<%- include(locals.views.genresList, {params: {...params, heading: "Trending Genres"}}) %>
+<%- include(locals.views.studiosList, {params: {...params, heading: "Best Studios"}}) %>

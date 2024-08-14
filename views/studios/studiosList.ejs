@@ -1,10 +1,9 @@
-<a class="add-btn" href="/studios/add">Add Studio</a>
 <div class="studios-container">
-  <% params.studios.forEach(studio => { %>
-    <% if(locals.toggle) { %>
-      <%- include(views.studioToggleCard, {studio: studio}) %>
-    <% } else { %>
-      <%- include(views.studioLinkCard, {studio: studio}) %>
-    <% } %>
-  <% }) %>
+  <h3 class="category-header"><%= locals.params.heading %></h3>
+  <a class="add-btn button" href="/studios/add">Add Studio</a>
+  <div class="studios-list">
+    <% params.studios.forEach(studio => { %> <% if(locals.toggle) { %> <%-
+    include(views.studioToggleCard, {studio: studio}) %> <% } else { %> <%-
+    include(views.studioLinkCard, {studio: studio}) %> <% } %> <% }) %>
+  </div>
 </div>
