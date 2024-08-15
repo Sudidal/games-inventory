@@ -141,7 +141,9 @@ const validateGameInput = [
   body("title", "Title must be between 1 and 60 characters")
     .trim()
     .isString()
-    .isLength({ min: 1, max: 60 }),
+    .isLength({ min: 1, max: 60 })
+    .bail()
+    .custom(validators.isGameNotExist),
   body("rating", "Rating must be a number between 0 and 5")
     .trim()
     .isNumeric()
@@ -152,14 +154,18 @@ const validateGameInput = [
   )
     .trim()
     .isURL()
-    .custom(validators.isLinkToImage),
+    .bail()
+    .custom(validators.isLinkToImage)
+    .bail(),
   body(
     "bannerUrl",
     "Banner URL must be a working image URL with format (png/jpg/jpeg/svg)"
   )
     .trim()
     .isURL()
-    .custom(validators.isLinkToImage),
+    .bail()
+    .custom(validators.isLinkToImage)
+    .bail(),
   body("releaseDate", "Release date must be a valid date").trim().isDate(),
   body("studioId", "Please enter a valid studio").trim().isNumeric(),
   body("genre", "Please enter valid genres").trim().isString().notEmpty(),

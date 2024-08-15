@@ -72,11 +72,16 @@ const validate = [
   body("studioName", "Studio name must be between 1 and 30 characters")
     .trim()
     .isString()
-    .isLength({ min: 1, max: 30 }),
+    .isLength({ min: 1, max: 30 })
+    .bail()
+    .custom(validators.isStudioNotExist),
   body(
     "logoUrl",
     "Logo URL must be a working image URL with format (png/jpg/jpeg/svg)"
-  ).custom(validators.isLinkToImage),
+  )
+    .trim()
+    .isURL()
+    .custom(validators.isLinkToImage),
 ];
 
 const studiosController = new StudiosController();

@@ -44,6 +44,27 @@ class Queries {
     );
     return result;
   }
+  async getGameByTitle(title) {
+    const result = await this.selectQuery(
+      `SELECT * FROM games WHERE title = ($1)`,
+      [title]
+    );
+    return result;
+  }
+  async getGenreByName(genreName) {
+    const result = await this.selectQuery(
+      `SELECT * FROM genres WHERE genre_name = ($1)`,
+      [genreName]
+    );
+    return result;
+  }
+  async getStudioByName(studioName) {
+    const result = await this.selectQuery(
+      `SELECT * FROM studios WHERE studio_name = ($1)`,
+      [studioName]
+    );
+    return result;
+  }
   // Special
   async getTopGames(limit) {
     const result = await this.selectQuery(
