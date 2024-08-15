@@ -81,7 +81,7 @@ class Queries {
   }
   async getTopStudios(limit) {
     const result = await this.selectQuery(
-      `SELECT studios.studio_name, games.studio_id, COUNT(games.studio_id) FROM games RIGHT JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studios.studio_name, games.studio_id) ORDER BY (count) DESC LIMIT ($1)`,
+      `SELECT studios.studio_name, studios.logo_url, studios.studio_id, COUNT(games.studio_id) FROM games RIGHT JOIN studios ON games.studio_id = studios.studio_id GROUP BY (studios.studio_id, studios.studio_name, studios.logo_url) ORDER BY (count) DESC LIMIT ($1)`,
       [limit]
     );
     return result;
@@ -196,8 +196,7 @@ class Queries {
       const { rows } = await pool.query(text, params);
       return rows;
     } catch (err) {
-      console.error(err);
-      return null;
+      return err;
     }
   }
   async mutateQuery(text, params) {
@@ -205,8 +204,7 @@ class Queries {
       await pool.query(text, params);
       return true;
     } catch (err) {
-      console.error(err);
-      return false;
+      return err;
     }
   }
 }
