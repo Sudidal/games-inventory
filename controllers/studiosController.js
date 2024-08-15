@@ -11,12 +11,10 @@ class StudiosController {
     console.log(data);
     if (!data) {
       res.send("ERROR RETRIEVING DATA");
-    } else if (data.length <= 0) {
-      res.send("No studios to show here, Why not add one?");
     }
     res.render(views.index, {
       page: views.studiosList,
-      params: { studios: data },
+      params: { studios: data, heading: "All Studios" },
     });
   }
   async studiosSingleGet(req, res) {

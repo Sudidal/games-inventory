@@ -1,10 +1,13 @@
 <div class="games-container">
   <h3 class="category-header"><%= locals.params.heading %></h3>
   <a class="add-btn button" href="/games/add">Add game</a>
+  <% if(params.games.length > 0) { %>
   <div class="games-list">
     <% params.games.forEach(game => { %>
       <%- include(views.gameLinkCard, {game: game}) %>
     <% }) %>
   </div>
-
+  <% } else { %>
+    <p>No games to show here, Why not add one?</p>
+  <% } %>
 </div>

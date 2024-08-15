@@ -1,9 +1,13 @@
 <div class="studios-container">
   <h3 class="category-header"><%= locals.params.heading %></h3>
   <a class="add-btn button" href="/studios/add">Add Studio</a>
+  <% if(params.studios.length > 0) { %>
   <div class="studios-list">
     <% params.studios.forEach(studio => { %> <% if(locals.toggle) { %> <%-
     include(views.studioToggleCard, {studio: studio}) %> <% } else { %> <%-
     include(views.studioLinkCard, {studio: studio}) %> <% } %> <% }) %>
   </div>
+  <% } else { %>
+    <p>No studios to show here, Why not add one?</p>
+  <% } %>
 </div>

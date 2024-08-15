@@ -1,9 +1,13 @@
 <div class="genres-container">
   <h3 class="category-header"><%= locals.params.heading %></h3>
   <a class="add-btn button" href="/genres/add">Add Genre</a>
-  <div class="genres-list">
-    <% params.genres.forEach(genre => { %> <% if(locals.toggle) { %> <%-
-    include(views.genreToggleCard, {genre: genre}) %> <% } else { %> <%-
-    include(views.genreLinkCard, {genre: genre}) %> <% }}) %>
-  </div>
+  <% if(params.genres.length > 0) { %>
+   <div class="genres-list">
+      <% params.genres.forEach(genre => { %> <% if(locals.toggle) { %> <%-
+        include(views.genreToggleCard, {genre: genre}) %> <% } else { %> <%-
+        include(views.genreLinkCard, {genre: genre}) %> <% }}) %>
+    </div>
+  <% } else { %>
+    <p>No genres to show here, Why not add one?</p>
+  <% } %>
 </div>

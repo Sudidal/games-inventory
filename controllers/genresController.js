@@ -10,12 +10,10 @@ class GenresController {
     console.log(data);
     if (!data) {
       res.send("COULDN'T RETRIEVE DATA");
-    } else if (data.length <= 0) {
-      res.send("No genres to show here, Why not add one?");
     }
     res.render(views.index, {
       page: views.genresList,
-      params: { genres: data },
+      params: { genres: data, heading: "All Genres" },
     });
   }
   async genresSingleGet(req, res) {

@@ -11,12 +11,10 @@ class GamesController {
     console.log(data);
     if (!data) {
       res.send("ERROR RETRIEVING DATA");
-    } else if (data.length <= 0) {
-      res.send("No games to show here, Why not add one?");
     }
     res.render(views.index, {
       page: views.gamesList,
-      params: { games: data },
+      params: { games: data, heading: "All Games" },
     });
   }
   async gamesSingleGet(req, res) {
@@ -25,7 +23,7 @@ class GamesController {
     if (!data) {
       return res.send("ERROR RETRIEVING DATA");
     } else if (data.length <= 0) {
-      return res.send("No games to show here, Why not add one?");
+      return res.send("No game to show here, Why not add one?");
     }
     res.render(views.index, {
       page: views.game,
