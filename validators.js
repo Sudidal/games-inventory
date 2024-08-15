@@ -1,3 +1,5 @@
+import queries from "./db/queries.js";
+
 class Validators {
   constructor() {}
   isNumberBetween(value) {
@@ -30,6 +32,30 @@ class Validators {
     } catch (err) {
       console.log(err);
       throw "";
+    }
+  }
+  async isGameNotExist(value) {
+    const gameExist = await queries.getGameByTitle(value);
+    if (gameExist && gameExist.length > 0) {
+      throw "Game name already exist";
+    } else {
+      return true;
+    }
+  }
+  async isGenreNotExist(value) {
+    const genreExist = await queries.getGenreByName(value);
+    if (genreExist && genreExist.length > 0) {
+      throw "Genre name already exist";
+    } else {
+      return true;
+    }
+  }
+  async isStudioNotExist(value) {
+    const studioExist = await queries.getStudioByName(value);
+    if (studioExist && studioExist.length > 0) {
+      throw "Studio name already exist";
+    } else {
+      return true;
     }
   }
 }

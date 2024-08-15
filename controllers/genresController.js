@@ -1,6 +1,7 @@
 import queries from "../db/queries.js";
 import views from "../views/views.js";
 import { body, validationResult, matchedData } from "express-validator";
+import validators from "../validators.js";
 
 class GenresController {
   constructor() {}
@@ -40,7 +41,11 @@ class GenresController {
     body("genreName", "Genre name must be between 1 and 20 characters")
       .trim()
       .isString()
-      .isLength({ min: 1, max: 20 }),
+      .bail()
+      .isLength({ min: 1, max: 20 })
+      .bail()
+      .custom(validators.isGenreNotExist)
+      .bail(),
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
