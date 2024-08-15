@@ -1,6 +1,7 @@
 import queries from "../db/queries.js";
 import views from "../views/views.js";
 import { body, validationResult, matchedData } from "express-validator";
+import validators from "../validators.js";
 
 class StudiosController {
   constructor() {}
@@ -37,10 +38,7 @@ class StudiosController {
     res.render(views.index, { page: views.studiosForm, params: {} });
   }
   studiosAddPost = [
-    body("studioName", "Studio name must be between 1 and 30 characters")
-      .trim()
-      .isString()
-      .isLength({ min: 1, max: 30 }),
+    validate,
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -53,7 +51,7 @@ class StudiosController {
       }
       const studioInfo = matchedData(req);
       console.log(studioInfo);
-      const result = await queries.insertStudio(studioInfo.studioName);
+      const result = await queries.insertStudio(studioInfo);
       if (result) {
         res.send("studio added successfully");
       } else {
@@ -71,6 +69,17 @@ class StudiosController {
     }
   }
 }
+
+const validate = [
+  body("studioName", "Studio name must be between 1 and 30 characters")
+    .trim()
+    .isString()
+    .isLength({ min: 1, max: 30 }),
+  body(
+    "logoUrl",
+    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg)"
+  ).custom(validators.isLinkToImage),
+];
 
 const studiosController = new StudiosController();
 export default studiosController;

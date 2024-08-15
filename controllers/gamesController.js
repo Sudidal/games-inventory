@@ -1,6 +1,7 @@
 import queries from "../db/queries.js";
 import views from "../views/views.js";
 import { body, matchedData, validationResult } from "express-validator";
+import validators from "../validators.js";
 
 class GamesController {
   constructor() {}
@@ -146,55 +147,25 @@ const validateGameInput = [
   body("rating", "Rating must be a number between 0 and 5")
     .trim()
     .isNumeric()
-    .custom(isNumberBetween),
+    .custom(validators.isNumberBetween),
   body(
     "logoUrl",
-    "Logo URL must be a working image url with format (png/jpg/jpeg/svg)"
+    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg)"
   )
     .trim()
     .isURL()
-    .custom(isLinkToImage),
+    .custom(validators.isLinkToImage),
   body(
     "bannerUrl",
-    "Banner URL must be a working image url with format (png/jpg/jpeg/svg)"
+    "Banner URL must be a working image URL with format (png/jpg/jpeg/svg)"
   )
     .trim()
     .isURL()
-    .custom(isLinkToImage),
+    .custom(validators.isLinkToImage),
   body("releaseDate", "Release date must be a valid date").trim().isDate(),
   body("studioId", "Please enter a valid studio").trim().isNumeric(),
   body("genre", "Please enter valid genres").trim().isString().notEmpty(),
 ];
-function isNumberBetween(value) {
-  const valueNum = parseFloat(value);
-  if (valueNum < 0) return false;
-  else if (valueNum > 5) return false;
-  else return true;
-}
-async function isLinkToImage(value) {
-  const supportedFormats = [
-    "image/png",
-    "image/jpg",
-    "image/jpeg",
-    "image/svg",
-  ];
-  try {
-    let good = false;
-    const res = await fetch(value);
-    for (let i = 0; i < supportedFormats.length; i++) {
-      console.log(supportedFormats[i] + "||" + res.headers.get("content-type"));
-      if (res.headers.get("content-type") === supportedFormats[i]) {
-        good = true;
-        break;
-      }
-    }
-    if (good) return true;
-    else throw "";
-  } catch (err) {
-    console.log(err);
-    throw "";
-  }
-}
 
 const gamesController = new GamesController();
 export default gamesController;
