@@ -1,5 +1,13 @@
 <form action="/studios/add" method="post">
-  <input type="text" name="studioName" placeholder="Enter studio Name">
-  <input type="text" name="logoUrl" placeholder="Studio's logo URL">
-  <button type="submit">Submit</button>
+  <div class="studios-form">
+    <div class="field">
+      <label for="name">Studio name</label>
+      <input type="text" name="studioName" id="name" placeholder="Enter studio Name">
+    </div>
+    <div class="field">
+      <label for="logo">Logo URL</label>
+      <input type="text" name="logoUrl" id="logo" placeholder="Studio's logo URL">
+    </div>
+    <button type="submit">Submit</button>
+  </div>
 </form>

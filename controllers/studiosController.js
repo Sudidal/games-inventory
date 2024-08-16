@@ -2,42 +2,48 @@ import queries from "../db/queries.js";
 import views from "../views/views.js";
 import { body, validationResult, matchedData } from "express-validator";
 import validators from "../validators.js";
+import homeController from "./homeController.js";
 
 class StudiosController {
   constructor() {}
 
-  async studiosAllGet(req, res) {
+  async studiosAllGet(req, res, next) {
     const data = await queries.getAllStudios();
     console.log(data);
     if (!data) {
-      res.send("ERROR RETRIEVING DATA");
+      return next(new Error("ERROR RETRIEVING DATA"));
     }
     res.render(views.index, {
       page: views.studiosList,
       params: { studios: data, heading: "All Studios" },
     });
   }
-  async studiosSingleGet(req, res) {
-    const studioData = await queries.getStudio(req.params.studioId);
-    const gamesData = await queries.getGamesByStudio(req.params.studioId);
-    console.log(studioData);
-    console.log(gamesData);
-    if (!studioData || !gamesData) {
-      return res.send("ERROR RETRIEVING DATA");
-    } else if (studioData.length <= 0) {
-      return res.send("No studios to show here, Why not add one?");
-    }
-    res.render(views.index, {
-      page: views.studio,
-      params: { studio: studioData[0], games: gamesData },
-    });
-  }
+  studiosSingleGet = [
+    async (req, res, next) => {
+      const studioData = await queries.getStudio(req.params.studioId);
+      const gamesData = await queries.getGamesByStudio(req.params.studioId);
+      console.log(studioData);
+      console.log(gamesData);
+      if (!studioData || !gamesData) {
+        return next(new Error("ERROR RETRIEVING DATA"));
+      } else if (studioData.length <= 0) {
+        req.errors = [{ msg: "Couldn't find studio" }];
+        return next();
+      }
+      res.render(views.index, {
+        page: views.studio,
+        params: { studio: studioData[0], games: gamesData },
+      });
+      next();
+    },
+    homeController.homeGet,
+  ];
   async studiosAddGet(req, res) {
     res.render(views.index, { page: views.studiosForm, params: {} });
   }
   studiosAddPost = [
     validate,
-    async (req, res) => {
+    async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors.array());
@@ -51,21 +57,27 @@ class StudiosController {
       console.log(studioInfo);
       const result = await queries.insertStudio(studioInfo);
       if (result) {
-        res.send("studio added successfully");
+        req.successes = [{ msg: "Studio added successfully" }];
       } else {
-        res.send("Error, couldn't add studio");
+        req.errors = [{ msg: "Couldn't add studio" }];
       }
+      next();
     },
+    homeController.homeGet,
   ];
 
-  async studiosDeleteGet(req, res) {
-    const result = await queries.deleteStudio(req.params.studioId);
-    if (result) {
-      res.send("studio deleted successfully");
-    } else {
-      res.send("Error, couldn't delete studio");
-    }
-  }
+  studiosDeleteGet = [
+    async (req, res, next) => {
+      const result = await queries.deleteStudio(req.params.studioId);
+      if (result) {
+        req.successes = [{ msg: "studio deleted successfully" }];
+      } else {
+        req.errors = [{ msg: "Error, couldn't delete studio" }];
+      }
+      next();
+    },
+    homeController.homeGet,
+  ];
 }
 
 const validate = [

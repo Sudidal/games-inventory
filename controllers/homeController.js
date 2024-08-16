@@ -4,15 +4,20 @@ import views from "../views/views.js";
 class HomeController {
   constructor() {}
 
-  async homeGet(req, res) {
+  async homeGet(req, res, next) {
     const topGamesData = await queries.getTopGames(10);
     const topGenresData = await queries.getTopGenres(10);
     const topStudiosData = await queries.getTopStudios(10);
     console.log(topGamesData);
     console.log(topGenresData);
     console.log(topStudiosData);
+    if (!topGamesData || !topGenresData || !topStudiosData) {
+      return next(new Error("ERROR RETRIEVING DATA"));
+    }
     res.render(views.index, {
       page: views.home,
+      successes: req.successes,
+      errors: req.errors,
       params: {
         games: topGamesData,
         genres: topGenresData,

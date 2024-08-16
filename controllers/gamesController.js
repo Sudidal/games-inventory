@@ -2,38 +2,43 @@ import queries from "../db/queries.js";
 import views from "../views/views.js";
 import { body, matchedData, validationResult } from "express-validator";
 import validators from "../validators.js";
+import homeController from "./homeController.js";
 
 class GamesController {
   constructor() {}
 
-  async gamesAllGet(req, res) {
+  async gamesAllGet(req, res, next) {
     const data = await queries.getAllGames();
     console.log(data);
     if (!data) {
-      res.send("ERROR RETRIEVING DATA");
+      return next(new Error("ERROR RETRIEVING DATA"));
     }
     res.render(views.index, {
       page: views.gamesList,
       params: { games: data, heading: "All Games" },
     });
   }
-  async gamesSingleGet(req, res) {
-    const data = await queries.getGame(req.params.gameId);
-    console.log(data);
-    if (!data) {
-      return res.send("ERROR RETRIEVING DATA");
-    } else if (data.length <= 0) {
-      return res.send("No game to show here, Why not add one?");
-    }
-    res.render(views.index, {
-      page: views.game,
-      params: { game: data[0] },
-    });
-  }
-  async gamesAddGet(req, res) {
+  gamesSingleGet = [
+    async (req, res, next) => {
+      const data = await queries.getGame(req.params.gameId);
+      console.log(data);
+      if (!data) {
+        return next(new Error("ERROR RETRIEVING DATA"));
+      } else if (data.length <= 0) {
+        req.errors = [{ msg: "Couldn't find game" }];
+        return next();
+      }
+      res.render(views.index, {
+        page: views.game,
+        params: { game: data[0] },
+      });
+    },
+    homeController.homeGet,
+  ];
+  async gamesAddGet(req, res, next) {
     const data = await getFormParams();
     if (!data) {
-      return res.render("ERROR RETRIEVING DATA");
+      return next(new Error("ERROR RETRIEVING DATA"));
     }
     res.render(views.index, {
       page: views.gamesForm,
@@ -46,12 +51,12 @@ class GamesController {
   }
   gamesAddPost = [
     validateGameInput,
-    async (req, res) => {
+    async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors.array());
         const data = await getFormParams();
-        if (!data) return res.render("ERROR RETRIEVING DATA");
+        if (!data) return next(new Error("ERROR RETRIEVING DATA"));
         return res.status(400).render(views.index, {
           page: views.gamesForm,
           errors: errors.array(),
@@ -64,41 +69,47 @@ class GamesController {
       const gameInfo = matchedData(req);
       const result = await queries.insertGame(gameInfo);
       if (result) {
-        res.send("Game added successfully");
+        req.successes = [{ msg: "Game added successfully" }];
       } else {
-        res.send("Error, couldn't add game");
+        req.errors = [{ msg: "Couldn't add game" }];
       }
+      next();
     },
+    homeController.homeGet,
   ];
-
-  async gamesEditGet(req, res) {
-    const data = await getFormParams();
-    if (!data) {
-      return res.render("ERROR RETRIEVING DATA");
-    }
-    const gameInfo = await queries.getGame(req.params.gameId);
-    console.log(gameInfo);
-    if (!gameInfo || gameInfo.length <= 0) {
-      return res.send("Error, couldn't find game");
-    }
-    res.render(views.index, {
-      page: views.gamesForm,
-      params: {
-        action: `/games/edit/${gameInfo[0].game_id}`,
-        game: gameInfo[0],
-        genres: data.genresData,
-        studios: data.studiosData,
-      },
-    });
-  }
+  gamesEditGet = [
+    async (req, res, next) => {
+      const data = await getFormParams();
+      if (!data) {
+        return next(new Error("ERROR RETRIEVING DATA"));
+      }
+      const gameInfo = await queries.getGame(req.params.gameId);
+      console.log(gameInfo);
+      if (!gameInfo || gameInfo.length <= 0) {
+        console.log("alhamdulillah");
+        req.errors = [{ msg: "Couldn't find game" }];
+        return next();
+      }
+      res.render(views.index, {
+        page: views.gamesForm,
+        params: {
+          action: `/games/edit/${gameInfo[0].game_id}`,
+          game: gameInfo[0],
+          genres: data.genresData,
+          studios: data.studiosData,
+        },
+      });
+    },
+    homeController.homeGet,
+  ];
   gamesEditPost = [
     validateGameInput,
-    async (req, res) => {
+    async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         console.log(errors.array());
         const data = await getFormParams();
-        if (!data) return res.render("ERROR RETRIEVING DATA");
+        if (!data) return next(new Error("ERROR RETRIEVING DATA"));
         return res.status(400).render(views.index, {
           page: views.gamesForm,
           errors: errors.array(),
@@ -111,20 +122,26 @@ class GamesController {
       const gameInfo = matchedData(req);
       const result = await queries.updateGame(req.params.gameId, gameInfo);
       if (result) {
-        res.send("Game updated successfully");
+        req.successes = [{ msg: "Game updated successfully" }];
       } else {
-        res.send("Error, couldn't update game");
+        req.errors = [{ msg: "Error, couldn't update game" }];
       }
+      next();
     },
+    homeController.homeGet,
   ];
-  async gamesDeleteGet(req, res) {
-    const result = await queries.deleteGame(req.params.gameId);
-    if (result) {
-      res.send("Game deleted successfully");
-    } else {
-      res.send("Error, couldn't delete game");
-    }
-  }
+  gamesDeleteGet = [
+    async (req, res, next) => {
+      const result = await queries.deleteGame(req.params.gameId);
+      if (result) {
+        req.successes = [{ msg: "Game deleted successfully" }];
+      } else {
+        res.errors = [{ msg: "Error, couldn't delete game" }];
+      }
+      next();
+    },
+    homeController.homeGet,
+  ];
 }
 
 async function getFormParams() {
@@ -155,8 +172,7 @@ const validateGameInput = [
     .trim()
     .isURL()
     .bail()
-    .custom(validators.isLinkToImage)
-    .bail(),
+    .custom(validators.isLinkToImage),
   body(
     "bannerUrl",
     "Banner URL must be a working image URL with format (png/jpg/jpeg/svg)"
@@ -164,8 +180,7 @@ const validateGameInput = [
     .trim()
     .isURL()
     .bail()
-    .custom(validators.isLinkToImage)
-    .bail(),
+    .custom(validators.isLinkToImage),
   body("releaseDate", "Release date must be a valid date").trim().isDate(),
   body("studioId", "Please enter a valid studio").trim().isNumeric(),
   body("genre", "Please enter valid genres").trim().isString().notEmpty(),
