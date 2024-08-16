@@ -1,44 +1,98 @@
 <script src="/script/gamesFormInput.js" type="module" defer></script>
 <form action="<%- params.action %>" method="post">
-  <input
-    type="text"
-    name="title"
-    placeholder="Game's title"
-    value="<%= locals.params.game?.title %>"
-  />
-  <input
-    type="number"
-    name="rating"
-    step="0.1"
-    placeholder="Game's rating"
-    value="<%= params.game?.rating %>"
-  />
-  <input
-    type="text"
-    name="logoUrl"
-    placeholder="Logo image url"
-    value="<%= locals.params.game?.logo_url %>"
-  />
-  <input
-    type="text"
-    name="bannerUrl"
-    placeholder="Banner image url"
-    value="<%= locals.params.game?.banner_url %>"
-  />
-  <input
-    type="date"
-    name="releaseDate"
-    placeholder="Release date"
-    value="<%= locals.params.game?.release_date %>"
-  />
-  <input type="button" class="studioModalBtn" value="Choose Studio">
-  <input type="hidden" name="studioId" class="studioId" value="<%= locals.params.game?.studio_id %>">
-  <input type="hidden" name="genre" class="genre-input" value="<%= locals.params.game?.genre %>">
-  <button type="button" class="genreModalBtn">Add genre</button>
-  <div class="genres-listing">
-    <%- include(views.genresBulletList, {params: {genres: []}}) %>
+  <div class="game-form">
+    <img
+      class="banner-preview"
+      src=""
+      alt="Banner image will display here"
+      title="Game's banner image"
+    />
+    <div class="lower">
+      <img
+        class="logo-preview"
+        src=""
+        alt="Logo image will display here"
+        title="Game's logo image"
+      />
+      <div class="fields">
+        <div class="row">
+          <div class="field">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Game's title"
+              value="<%= locals.params.game?.title %>"
+            />
+          </div>
+          <div class="field">
+            <label for="release-date">Release Date</label>
+            <input
+              type="date"
+              name="releaseDate"
+              id="release-date"
+              placeholder="Release date"
+              value="<%= locals.params.game?.release_date %>"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="rating">Rating</label>
+            <input
+              type="number"
+              name="rating"
+              id="rating"
+              step="0.1"
+              placeholder="Game's rating"
+              value="<%= params.game?.rating %>"
+            />
+          </div>
+          <div class="field">
+            <label for="studio">Studio</label>
+            <input type="button" id="studio" class="studioModalBtn button" value="Choose Studio" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="logo">Logo URL</label>
+          <input
+            type="text"
+            name="logoUrl"
+            id="logo"
+            placeholder="Logo image url"
+            value="<%= locals.params.game?.logo_url %>"
+          />
+        </div>
+        <div class="field">
+          <label for="banner">Banner URL</label>
+          <input
+            type="text"
+            name="bannerUrl"
+            id="banner"
+            placeholder="Banner image url"
+            value="<%= locals.params.game?.banner_url %>"
+          /></div>
+        <input
+          type="hidden"
+          name="studioId"
+          class="studioId"
+          value="<%= locals.params.game?.studio_id %>"
+        />
+        <input
+          type="hidden"
+          name="genre"
+          class="genre-input"
+          value="<%= locals.params.game?.genre %>"
+        />
+        <button type="button" class="genreModalBtn">Add genre</button>
+        <div class="genres-listing">
+          <%- include(views.genresBulletList, {params: {genres: []}}) %>
+        </div>
+      </div>
+    </div>
+    <button type="submit">Submit</button>
   </div>
-  <button type="submit">Submit</button>
 </form>
 <dialog class="modal">
   <div class="studios-div">

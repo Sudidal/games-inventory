@@ -12,12 +12,13 @@ const genreInput = document.querySelector(".genre-input");
 const studiosDiv = modal.querySelector(".studios-div");
 const genresDiv = modal.querySelector(".genres-div");
 
-const studiosCards = Array.from(
-  modal.querySelector(".studios-container").children
-);
-const genresCards = Array.from(
-  modal.querySelector(".genres-container").children
-);
+const studiosCards = Array.from(modal.querySelector(".studios-list").children);
+const genresCards = Array.from(modal.querySelector(".genres-list").children);
+
+const bannerInput = document.querySelector("#banner");
+const bannerPreview = document.querySelector(".banner-preview");
+const logoInput = document.querySelector("#logo");
+const logoPreview = document.querySelector(".logo-preview");
 
 let selectedStudio = null;
 let selectedGenre = null;
@@ -56,6 +57,14 @@ genresCards.forEach((card) => {
     selectedGenre = card;
     card.classList.toggle("true");
   });
+});
+bannerInput.addEventListener("change", () => {
+  console.log("change");
+  bannerPreview.src = bannerInput.value;
+});
+logoInput.addEventListener("change", () => {
+  console.log("change");
+  logoPreview.src = logoInput.value;
 });
 
 function closeModal() {
