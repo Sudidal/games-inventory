@@ -50,6 +50,7 @@ class GamesController {
     });
   }
   gamesAddPost = [
+    body("title").custom(validators.isGameNotExist),
     validateGameInput,
     async (req, res, next) => {
       const errors = validationResult(req);
@@ -159,15 +160,14 @@ const validateGameInput = [
     .trim()
     .isString()
     .isLength({ min: 1, max: 60 })
-    .bail()
-    .custom(validators.isGameNotExist),
+    .bail(),
   body("rating", "Rating must be a number between 0 and 5")
     .trim()
     .isNumeric()
     .custom(validators.isNumberBetween),
   body(
     "logoUrl",
-    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg)"
+    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg/webp)"
   )
     .trim()
     .isURL()
@@ -175,7 +175,7 @@ const validateGameInput = [
     .custom(validators.isLinkToImage),
   body(
     "bannerUrl",
-    "Banner URL must be a working image URL with format (png/jpg/jpeg/svg)"
+    "Banner URL must be a working image URL with format (png/jpg/jpeg/svg/webp)"
   )
     .trim()
     .isURL()

@@ -14,6 +14,7 @@ class Validators {
       "image/jpg",
       "image/jpeg",
       "image/svg",
+      "image/webp",
     ];
     try {
       let good = false;

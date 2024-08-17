@@ -89,7 +89,7 @@ const validate = [
     .custom(validators.isStudioNotExist),
   body(
     "logoUrl",
-    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg)"
+    "Logo URL must be a working image URL with format (png/jpg/jpeg/svg/webp)"
   )
     .trim()
     .isURL()
