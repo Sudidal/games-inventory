@@ -1,7 +1,7 @@
 import pool from "./pool.js";
 
 const gamesColumns =
-  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, games.logo_url, banner_url, studio_name, games.studio_id";
+  "game_id, title, rating, genre, to_char(release_date, 'YYYY-MM-DD') as release_date, games.logo_url, banner_url, studio_name, games.studio_id, games.admin";
 
 class Queries {
   constructor() {}

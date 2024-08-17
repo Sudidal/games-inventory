@@ -3,6 +3,7 @@ import views from "../views/views.js";
 import { body, validationResult, matchedData } from "express-validator";
 import validators from "../validators.js";
 import homeController from "./homeController.js";
+import userAuth from "../userAuth.js";
 
 class GenresController {
   constructor() {}
@@ -73,6 +74,15 @@ class GenresController {
   ];
   genresDeleteGet = [
     async (req, res, next) => {
+      const hasPermission = await canOperateOnGenre(
+        req,
+        req.params.genreId,
+        next
+      );
+      if (!hasPermission) {
+        req.errors = [{ msg: userAuth.permissionErrorMessage() }];
+        return next();
+      }
       const result = await queries.deleteGenre(req.params.genreId);
       if (result) {
         req.successes = [{ msg: "Genre deleted seccessfully" }];
@@ -83,6 +93,21 @@ class GenresController {
     },
     homeController.homeGet,
   ];
+}
+
+async function canOperateOnGenre(req, genreId, next) {
+  console.log(req.query);
+  const genre = await queries.getGenre(genreId);
+  console.log(genre);
+  if (!genre || genre.length <= 0) {
+    return next(new Error("Couldn't find genre"));
+  }
+  if (genre[0].admin) {
+    if (userAuth.isAdmin(req)) return true;
+    else return false;
+  } else {
+    return true;
+  }
 }
 
 const genresController = new GenresController();

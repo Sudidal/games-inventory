@@ -3,6 +3,7 @@ import views from "../views/views.js";
 import { body, validationResult, matchedData } from "express-validator";
 import validators from "../validators.js";
 import homeController from "./homeController.js";
+import userAuth from "../userAuth.js";
 
 class StudiosController {
   constructor() {}
@@ -68,6 +69,15 @@ class StudiosController {
 
   studiosDeleteGet = [
     async (req, res, next) => {
+      const hasPermission = await canOperateOnStudios(
+        req,
+        req.params.studioId,
+        next
+      );
+      if (!hasPermission) {
+        req.errors = [{ msg: userAuth.permissionErrorMessage() }];
+        return next();
+      }
       const result = await queries.deleteStudio(req.params.studioId);
       if (result) {
         req.successes = [{ msg: "studio deleted successfully" }];
@@ -95,6 +105,21 @@ const validate = [
     .isURL()
     .custom(validators.isLinkToImage),
 ];
+
+async function canOperateOnStudios(req, studioId, next) {
+  console.log(req.query);
+  const studio = await queries.getStudio(studioId);
+  console.log(studio);
+  if (!studio || studio.length <= 0) {
+    return next(new Error("Couldn't find studio"));
+  }
+  if (studio[0].admin) {
+    if (userAuth.isAdmin(req)) return true;
+    else return false;
+  } else {
+    return true;
+  }
+}
 
 const studiosController = new StudiosController();
 export default studiosController;

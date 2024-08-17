@@ -3,6 +3,7 @@ import views from "../views/views.js";
 import { body, matchedData, validationResult } from "express-validator";
 import validators from "../validators.js";
 import homeController from "./homeController.js";
+import userAuth from "../userAuth.js";
 
 class GamesController {
   constructor() {}
@@ -94,7 +95,7 @@ class GamesController {
       res.render(views.index, {
         page: views.gamesForm,
         params: {
-          action: `/games/edit/${gameInfo[0].game_id}`,
+          action: req.originalUrl,
           game: gameInfo[0],
           genres: data.genresData,
           studios: data.studiosData,
@@ -121,6 +122,15 @@ class GamesController {
         });
       }
       const gameInfo = matchedData(req);
+      const havePermission = await canOperateOnGame(
+        req,
+        req.params.gameId,
+        next
+      );
+      if (!havePermission) {
+        req.errors = [{ msg: userAuth.permissionErrorMessage() }];
+        return next();
+      }
       const result = await queries.updateGame(req.params.gameId, gameInfo);
       if (result) {
         req.successes = [{ msg: "Game updated successfully" }];
@@ -133,6 +143,15 @@ class GamesController {
   ];
   gamesDeleteGet = [
     async (req, res, next) => {
+      const havePermission = await canOperateOnGame(
+        req,
+        req.params.gameId,
+        next
+      );
+      if (!havePermission) {
+        req.errors = [{ msg: userAuth.permissionErrorMessage() }];
+        return next();
+      }
       const result = await queries.deleteGame(req.params.gameId);
       if (result) {
         req.successes = [{ msg: "Game deleted successfully" }];
@@ -185,6 +204,21 @@ const validateGameInput = [
   body("studioId", "Please enter a valid studio").trim().isNumeric(),
   body("genre", "Please enter valid genres").trim().isString().notEmpty(),
 ];
+
+async function canOperateOnGame(req, gameId, next) {
+  console.log(req.query);
+  const game = await queries.getGame(gameId);
+  console.log(game);
+  if (!game || game.length <= 0) {
+    return next(new Error("Couldn't find game"));
+  }
+  if (game[0].admin) {
+    if (userAuth.isAdmin(req)) return true;
+    else return false;
+  } else {
+    return true;
+  }
+}
 
 const gamesController = new GamesController();
 export default gamesController;

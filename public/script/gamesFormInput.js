@@ -102,6 +102,7 @@ function setStudio() {
   }
   studioBtn.value = selectedStudio.querySelector(".name").textContent;
   studioIdInput.value = selectedStudio.querySelector(".id").textContent;
+  unselectCards(studiosCards);
 }
 function setGenre() {
   if (!selectedGenre) {
@@ -110,6 +111,7 @@ function setGenre() {
   genresArr.push(selectedGenre.querySelector(".name").textContent);
   setGenreInputValue();
   renderGenreBullet();
+  unselectCards(genresCards);
 }
 
 function renderGenreBullet() {
