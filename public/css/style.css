@@ -1,10 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 *:not(dialog) {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
   height: 100vh;
   background-color: var(--primary-background-color);
   color: var(--text-color);
+  font-size: var(--normal-font-size);
   --primary-background-color: rgb(2, 17, 39);
   --secondary-background-color: rgba(6, 31, 70, 0.7);
   --panels-background-color: rgba(0, 0, 0, 0.5);
@@ -19,6 +21,9 @@ body {
   --text-color: rgb(255, 255, 255);
   --border-color: rgb(33, 20, 146);
   --panels-border-color: rgba(50, 50, 50, 0.8);
+  --normal-font-size: 18px;
+  --small-font-size: 12px;
+  --heading-font-size: 21px;
 }
 
 a {
@@ -26,11 +31,15 @@ a {
   color: var(--text-color);
 }
 
+.category-header {
+  font-size: var(--heading-font-size);
+}
+
 .container {
   height: 100%;
   display: grid;
-  grid-template-columns: 200px 5fr;
-  grid-template-rows: 60px 1fr;
+  grid-template-columns: 15vw 5fr;
+  grid-template-rows: 10vh 1fr;
 }
 
 .button,
@@ -41,6 +50,7 @@ input {
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  font-size: var(--normal-font-size);
 }
 .button,
 button,
@@ -65,13 +75,13 @@ input:hover {
   align-items: center;
   gap: 2px;
   color: white;
-  font-size: 12px;
+  font-size: var(--small-font-size);
 }
 
 .popping-item {
   transition: transform 150ms;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
@@ -124,7 +134,7 @@ input:hover {
   border: 1px solid var(--border-color);
   background-color: var(--special-background-color);
   border-radius: 25px;
-  font-size: 12px;
+  font-size: var(--small-font-size);
   text-align: center;
 }
 
@@ -133,9 +143,6 @@ input:hover {
   grid-row: 1 / 2;
   border-bottom: 1px solid var(--panels-border-color);
   background-color: var(--panels-background-color);
-}
-.header h1 {
-  font-size: 22px;
 }
 .header .button {
   width: 150px;
@@ -151,16 +158,18 @@ input:hover {
     transform: translateX(-10px);
   }
   &::after {
-    content: "→";
+    content: "\00a0 →";
     position: absolute;
     right: 10px;
+    top: 25%;
     transition: transform 500ms;
     transform: translateX(0%);
   }
   &::before {
-    content: "→";
+    content: "→ ";
     position: absolute;
     left: 0;
+    top: 25%;
     transition: transform 500ms;
     transform: translateX(-100%);
   }
@@ -185,7 +194,6 @@ input:hover {
   flex-direction: column;
   align-items: center;
   gap: 60px;
-  font-size: 18px;
   border-right: 1px solid var(--panels-border-color);
   background-color: var(--panels-background-color);
 }
@@ -197,10 +205,10 @@ input:hover {
 }
 .game-info .banner {
   width: 100%;
-  height: 350px;
+  height: 60vh;
   object-fit: cover;
   object-position: top;
-  mask-image: linear-gradient(rgb(0, 0, 0), 70%, rgba(0, 0, 0, 0.1));
+  mask-image: linear-gradient(rgb(0, 0, 0), 60%, rgba(0, 0, 0, 0.1));
   border-radius: 2px;
 }
 .game-info .info {
@@ -209,13 +217,8 @@ input:hover {
 }
 .game-info .logo {
   width: 300px;
-  height: 300px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-}
-.game-info .title {
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
 }
 .game-info .stats {
   display: flex;
@@ -272,7 +275,6 @@ input:hover {
 }
 .game-card p {
   font-family: "Bebas Neue";
-  font-size: 20px;
   letter-spacing: 1px;
 }
 .genre-card {
@@ -334,19 +336,21 @@ input:hover {
 }
 .game-form .banner-preview,
 .game-form .logo-preview {
-  width: 300px;
-  height: 300px;
-  display: block;
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
   object-fit: cover;
-  background-color: rgb(48, 44, 44);
+  background-color: rgba(70, 66, 66, 0.61);
   border: 1px solid black;
+}
+.game-form .logo-preview {
+  width: 300px;
+  aspect-ratio: 1 / 1;
 }
 .game-form .banner-preview {
   width: 100%;
-  height: 350px;
+  height: 50vh;
 }
 .game-form .lower {
   width: 100%;
@@ -370,7 +374,7 @@ input:hover {
   flex: 1;
 }
 .fields .field label {
-  font-size: 12px;
+  font-size: var(--small-font-size);
 }
 .fields input,
 .fields button {
@@ -402,10 +406,12 @@ input:hover {
 }
 .higher h3 {
   letter-spacing: 1px;
-  font-size: 25px;
+  font-size: var(--heading-font-size);
 }
 .higher img {
-  width: 300px;
+  width: 30vw;
+  height: 25vh;
+  object-fit: cover;
 }
 
 .side-panel a:hover {
@@ -431,3 +437,69 @@ input:hover {
   margin-top: 40px;
   width: 100px;
 }
+
+@media (min-width: 1920px) {
+  body {
+    --normal-font-size: 22px;
+    --small-font-size: 18px;
+    --heading-font-size: 27px;
+  }
+  .nav {
+    padding: 0 40px 0 40px;
+  }
+  .header .button {
+    width: 180px;
+  }
+  .game-info .logo,
+  .game-form .logo-preview {
+    width: 400px;
+  }
+  .game-card {
+    width: 260px;
+    height: 300px;
+  }
+  .genre-card {
+    width: 290px;
+    height: 90px;
+  }
+  .studio-card {
+    width: 320px;
+    height: 160px;
+  }
+  .game-form .fields {
+    height: 400px;
+  }
+  .fields input,
+  .fields button {
+    height: 40px;
+  }
+  .higher img {
+    width: 40vw;
+    height: 30vh;
+    object-fit: cover;
+  }
+}
+/* @media (min-width: 1920px) {
+  body {
+    --normal-font-size: 20px;
+    --small-font-size: 17px;
+    --heading-font-size: 25px;
+  }
+  .nav {
+    padding: 0 30px 0 30px;
+  }
+  .header .button {
+    width: 170px;
+  }
+  .game-info .logo,
+  .game-form .logo-preview {
+    width: 350px;
+  }
+  .game-form .fields {
+    height: 350px;
+  }
+  .fields input,
+  .fields button {
+    height: 35px;
+  }
+} */
