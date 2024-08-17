@@ -132,7 +132,7 @@ function setGenreInputValue() {
     return;
   }
   genreInput.value = "{";
-  genreInput.value += genresArr.join(", ");
+  genreInput.value += genresArr.join(",");
   genreInput.value += "}";
   console.log(genreInput.value);
 }
