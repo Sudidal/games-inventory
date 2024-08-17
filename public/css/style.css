@@ -365,6 +365,10 @@ input:hover {
   width: 300px;
 }
 
+.side-panel a:hover {
+  color: rgb(105, 105, 105);
+}
+
 .modal {
   width: 70vw;
   height: 80vh;

@@ -97,10 +97,10 @@
 <dialog class="modal">
   <div class="modal-content">
     <div class="studios-div">
-      <%- include(locals.views.studiosList, {params: params, toggle: true}) %>
+      <%- include(locals.views.studiosList, {params: {...params, heading: "Choose studio"}, toggle: true}) %>
     </div>
     <div class="genres-div">
-      <%- include(locals.views.genresList, {params: params, toggle: true}) %>
+      <%- include(locals.views.genresList, {params: {...params, heading: "Choose genre"}, toggle: true}) %>
     </div>
     <button class="closeBtn">Done</button>
   </div>
