@@ -95,11 +95,13 @@
   </div>
 </form>
 <dialog class="modal">
-  <div class="studios-div">
-    <%- include(locals.views.studiosList, {params: params, toggle: true}) %>
+  <div class="modal-content">
+    <div class="studios-div">
+      <%- include(locals.views.studiosList, {params: params, toggle: true}) %>
+    </div>
+    <div class="genres-div">
+      <%- include(locals.views.genresList, {params: params, toggle: true}) %>
+    </div>
+    <button class="closeBtn">Done</button>
   </div>
-  <div class="genres-div">
-    <%- include(locals.views.genresList, {params: params, toggle: true}) %>
-  </div>
-  <button class="closeBtn">Done</button>
 </dialog>

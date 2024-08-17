@@ -26,6 +26,8 @@ let selectedGenre = null;
 let studios = false;
 let genresArr = [];
 
+const MODAL_TRANSITION_DURATION = 200;
+
 closeBtn.addEventListener("click", closeModal);
 studioBtn.addEventListener("click", () => {
   studiosDiv.style.display = "block";
@@ -34,6 +36,8 @@ studioBtn.addEventListener("click", () => {
   selectedStudio = null;
   selectedGenre = null;
   modal.showModal();
+  modal.style.transitionDuration = MODAL_TRANSITION_DURATION + "ms";
+  modal.style.transform = "scale(1)";
 });
 genreBtn.addEventListener("click", () => {
   genresDiv.style.display = "block";
@@ -42,6 +46,8 @@ genreBtn.addEventListener("click", () => {
   selectedStudio = null;
   selectedGenre = null;
   modal.showModal();
+  modal.style.transitionDuration = MODAL_TRANSITION_DURATION + "ms";
+  modal.style.transform = "scale(1)";
 });
 
 studiosCards.forEach((card) => {
@@ -58,12 +64,12 @@ genresCards.forEach((card) => {
     card.classList.toggle("true");
   });
 });
-bannerInput.addEventListener("change", () => {
-  console.log("change");
+bannerInput.addEventListener("input", () => {
+  console.log("input");
   bannerPreview.src = bannerInput.value;
 });
-logoInput.addEventListener("change", () => {
-  console.log("change");
+logoInput.addEventListener("input", () => {
+  console.log("input");
   logoPreview.src = logoInput.value;
 });
 
@@ -73,7 +79,11 @@ function closeModal() {
   } else {
     setGenre();
   }
-  modal.close();
+  modal.style.transitionDuration = MODAL_TRANSITION_DURATION + "ms";
+  modal.style.transform = "scale(0)";
+  setTimeout(() => {
+    modal.close();
+  }, MODAL_TRANSITION_DURATION);
 }
 
 function setStudio() {
@@ -147,8 +157,13 @@ function start() {
         }
       });
     });
+    bannerPreview.src = bannerInput.value;
+    logoPreview.src = logoInput.value;
     setGenreInputValue();
   }
 }
 
 start();
+setTimeout(() => {
+  modal.style.transform = "scale(0)";
+}, 0);
