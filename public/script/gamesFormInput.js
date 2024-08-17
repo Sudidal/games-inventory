@@ -12,8 +12,8 @@ const genreInput = document.querySelector(".genre-input");
 const studiosDiv = modal.querySelector(".studios-div");
 const genresDiv = modal.querySelector(".genres-div");
 
-const studiosCards = Array.from(modal.querySelector(".studios-list").children);
-const genresCards = Array.from(modal.querySelector(".genres-list").children);
+const studiosList = modal.querySelector(".studios-list");
+const genresList = modal.querySelector(".genres-list");
 
 const bannerInput = document.querySelector("#banner");
 const bannerPreview = document.querySelector(".banner-preview");
@@ -25,6 +25,16 @@ let selectedGenre = null;
 
 let studios = false;
 let genresArr = [];
+
+let genresCards = [];
+let studiosCards = [];
+
+if (genresList) {
+  genresCards = Array.from(genresList.children);
+}
+if (studiosList) {
+  studiosCards = Array.from(studiosList.children);
+}
 
 const MODAL_TRANSITION_DURATION = 200;
 
