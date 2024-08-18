@@ -18,7 +18,7 @@ app.use("/", baseRouter);
 
 app.listen(PORT, () =>
   console.log(
-    "Server running at port: " + PORT + " \x1b[36m%s\x1b[0m",
+    "Server running at port: " + PORT + "\n\x1b[36m%s\x1b[0m",
     "http://localhost:" + PORT
   )
 );
