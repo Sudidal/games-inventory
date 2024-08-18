@@ -33,8 +33,12 @@
         <p>Genre:</p>
         <%- include(views.genresBulletList, {params: {genres: params.game.genre}}) %></div>
       <div class="row">
-        <a class="button" href="/games/edit/<%= params.game.game_id %>">Edit</a>
-        <a class="button" href="/games/delete/<%= params.game.game_id %>">Delete</a>
+        <% if(params.game.admin) { %>
+            <em class="emphasized">✪ This item was added by admin</em>
+          <% } else { %>
+            <a class="button" href="/games/edit/<%= params.game.game_id %>">Edit</a>
+            <a class="button" href="/games/delete/<%= params.game.game_id %>">Delete</a>
+            <% } %>
       </div>
     </div>
   </div>

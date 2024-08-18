@@ -35,6 +35,11 @@ a {
   font-size: var(--heading-font-size);
 }
 
+.emphasized {
+  font-size: var(--small-font-size);
+  color: rgba(255, 255, 255, 0.623);
+}
+
 .container {
   height: 100%;
   display: grid;

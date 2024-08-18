@@ -1,6 +1,10 @@
 <div class="higher">
   <h3><%= params.genre.genre_name %></h3>
-  <a class="button" href="/genres/delete/<%= params.genre.genre_id %>">Delete</a>
+  <% if(params.genre.admin) { %>
+      <em class="emphasized">✪ This item was added by admin</em>
+    <% } else { %>
+      <a class="button" href="/genres/delete/<%= params.genre.genre_id %>">Delete</a>
+    <% } %>
 </div>
 <% if(locals.params.games) { %>
   <%- include(views.gamesList, {params: {...params, heading: `Games marked as "${params.genre.genre_name}"`}}) %>

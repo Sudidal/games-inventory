@@ -1,7 +1,12 @@
 <div class="higher">
-  <img src="<%= params.studio.logo_url %>" alt="" width="100px">
+  <img src="<%= params.studio.logo_url %>" alt="" width="100px" />
   <h3><%= params.studio.studio_name %></h3>
-  <a class="button" href="/studios/delete/<%- params.studio.studio_id %>">Delete</a></div>
-<% if(locals.params.games) { %>
-  <%- include(views.gamesList, {params: {...params, heading: `Games made by "${params.studio.studio_name}"`}}) %>
-<% } %>
+  <% if(params.studio.admin) { %>
+  <em class="emphasized">✪ This item was added by admin</em>
+  <% } else { %>
+  <a class="button" href="/studios/delete/<%- params.studio.studio_id %>">Delete</a>
+  <% } %>
+</div>
+<% if(locals.params.games) { %> <%- include(views.gamesList, {params:
+{...params, heading: `Games made by "${params.studio.studio_name}"`}}) %> <% }
+%>
